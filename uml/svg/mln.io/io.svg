@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="1035px" preserveAspectRatio="none" style="width:1051px;height:1035px;background:#FFFFFF;" version="1.1" viewBox="0 0 1051 1035" width="1051px" zoomAndPan="magnify"><defs/><g><!--MD5=[6239c3abdda3aae3b58192308b37a324]
+cluster client_container--><g id="cluster_client_container"><polygon fill="none" points="446,16,456,6,789,6,789,382,779,392,446,392,446,16" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="779" x2="789" y1="16" y2="6"/><line style="stroke:#181818;stroke-width:1.0;" x1="446" x2="779" y1="16" y2="16"/><line style="stroke:#181818;stroke-width:1.0;" x1="779" x2="779" y1="16" y2="392"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="125" x="551" y="31.9951">Client container</text></g><!--MD5=[ce970c6b293acd6216e4a557beb4af79]
+cluster client_process--><g id="cluster_client_process"><polygon fill="none" points="470,64,480,54,765,54,765,264,755,274,470,274,470,64" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="755" x2="765" y1="64" y2="54"/><line style="stroke:#181818;stroke-width:1.0;" x1="470" x2="755" y1="64" y2="64"/><line style="stroke:#181818;stroke-width:1.0;" x1="755" x2="755" y1="64" y2="274"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="219" x="504" y="79.9951">Client process (V8 support)</text></g><!--MD5=[07c1df0e34bc278bda61b24a57b41772]
+cluster router_container--><g id="cluster_router_container"><polygon fill="none" points="16,512,26,502,527,502,527,1008,517,1018,16,1018,16,512" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="517" x2="527" y1="512" y2="502"/><line style="stroke:#181818;stroke-width:1.0;" x1="16" x2="517" y1="512" y2="512"/><line style="stroke:#181818;stroke-width:1.0;" x1="517" x2="517" y1="512" y2="1018"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="133" x="201" y="527.9951">Router container</text></g><!--MD5=[2df48f385ce2c86355479ebc8f7bc529]
+cluster router_process--><g id="cluster_router_process"><polygon fill="none" points="40,590,50,580,503,580,503,984,493,994,40,994,40,590" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="493" x2="503" y1="590" y2="580"/><line style="stroke:#181818;stroke-width:1.0;" x1="40" x2="493" y1="590" y2="590"/><line style="stroke:#181818;stroke-width:1.0;" x1="493" x2="493" y1="590" y2="994"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="227" x="154" y="605.9951">Router process (V8 support)</text></g><!--MD5=[bb1a86de60ef6d009ac9c757dbd2a8a5]
+cluster router_main_thread--><g id="cluster_router_main_thread"><polygon fill="none" points="72,712,82,702,471,702,471,952,461,962,72,962,72,712" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="461" x2="471" y1="712" y2="702"/><line style="stroke:#181818;stroke-width:1.0;" x1="72" x2="461" y1="712" y2="712"/><line style="stroke:#181818;stroke-width:1.0;" x1="461" x2="461" y1="712" y2="962"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="93" x="221" y="727.9951">Main thread</text></g><!--MD5=[1e6540a49fbeb62cfb7d8b0670af96c0]
+cluster service_container--><g id="cluster_service_container"><polygon fill="none" points="677,512,687,502,1034,502,1034,866,1024,876,677,876,677,512" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="1024" x2="1034" y1="512" y2="502"/><line style="stroke:#181818;stroke-width:1.0;" x1="677" x2="1024" y1="512" y2="512"/><line style="stroke:#181818;stroke-width:1.0;" x1="1024" x2="1024" y1="512" y2="876"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="139" x="782" y="527.9951">Service container</text></g><!--MD5=[f4ab8a7e1e79096c87fe38e9643d1e13]
+cluster service_process--><g id="cluster_service_process"><polygon fill="none" points="701,590,711,580,1010,580,1010,842,1000,852,701,852,701,590" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="1000" x2="1010" y1="590" y2="580"/><line style="stroke:#181818;stroke-width:1.0;" x1="701" x2="1000" y1="590" y2="590"/><line style="stroke:#181818;stroke-width:1.0;" x1="1000" x2="1000" y1="590" y2="852"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="233" x="735" y="605.9951">Service process (V8 support)</text></g><!--MD5=[4d372c1dcbb43ea8bb96bf9f1b7c3796]
+cluster service_main_thread--><g id="cluster_service_main_thread"><polygon fill="none" points="733,712,743,702,902,702,902,810,892,820,733,820,733,712" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="892" x2="902" y1="712" y2="702"/><line style="stroke:#181818;stroke-width:1.0;" x1="733" x2="892" y1="712" y2="712"/><line style="stroke:#181818;stroke-width:1.0;" x1="892" x2="892" y1="712" y2="820"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="93" x="767" y="727.9951">Main thread</text></g><!--MD5=[e16d0d21aed9942a64f6494de86e2a7b]
+entity client_tcp_ip--><g id="elem_client_tcp_ip"><ellipse cx="617" cy="347" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39" x="597.5" y="376.9951">tcp/ip</text></g><!--MD5=[7abb0da9518aa505b90792073e47b777]
+entity client_websocket--><g id="elem_client_websocket"><ellipse cx="617" cy="229" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="587.5" y="258.9951">ws+http</text></g><!--MD5=[0dad7e7eb2e2da001d7e436c3f288229]
+entity client_main_thread--><g id="elem_client_main_thread"><polygon fill="#F1F1F1" points="556.5,104,566.5,94,677.5,94,677.5,130.2969,667.5,140.2969,556.5,140.2969,556.5,104" style="stroke:#181818;stroke-width:0.5;"/><line style="stroke:#181818;stroke-width:0.5;" x1="667.5" x2="677.5" y1="104" y2="94"/><line style="stroke:#181818;stroke-width:0.5;" x1="556.5" x2="667.5" y1="104" y2="104"/><line style="stroke:#181818;stroke-width:0.5;" x1="667.5" x2="667.5" y1="104" y2="140.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="81" x="571.5" y="126.9951">Main thread</text></g><!--MD5=[0784d171a731a7c73e8b5454180ae1ee]
+entity router_tcp_ip--><g id="elem_router_tcp_ip"><ellipse cx="486" cy="551" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39" x="466.5" y="580.9951">tcp/ip</text></g><!--MD5=[0773397b9a40cd23fec6442eb5814371]
+entity router_websocket--><g id="elem_router_websocket"><ellipse cx="470" cy="649" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="440.5" y="678.9951">ws+http</text></g><!--MD5=[c9acc4c42c772a034ded7212660e3f0a]
+entity router_kafka_js--><g id="elem_router_kafka_js"><ellipse cx="332" cy="649" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47" x="308.5" y="678.9951">kafkajs</text></g><!--MD5=[953a8c67cfe21abaf9bf45dad8506ca8]
+entity Router--><g id="elem_Router"><rect fill="#F1F1F1" height="46.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="87" x="218.5" y="750"/><rect fill="#F1F1F1" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="285.5" y="755"/><rect fill="#F1F1F1" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="283.5" y="757"/><rect fill="#F1F1F1" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="283.5" y="761"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47" x="233.5" y="782.9951">Router</text></g><!--MD5=[adbc3b47b0f1b1966c2f3e843f0924c6]
+entity Clients--><g id="elem_Clients"><rect fill="#F1F1F1" height="46.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="87" x="340.5" y="750"/><rect fill="#F1F1F1" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="407.5" y="755"/><rect fill="#F1F1F1" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="405.5" y="757"/><rect fill="#F1F1F1" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="405.5" y="761"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47" x="355.5" y="782.9951">Clients</text></g><!--MD5=[a02514872982634f62136e05b1a2cf31]
+entity BrokersRegister--><g id="elem_BrokersRegister"><rect fill="#F1F1F1" height="46.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="152" x="96" y="892"/><rect fill="#F1F1F1" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="228" y="897"/><rect fill="#F1F1F1" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="226" y="899"/><rect fill="#F1F1F1" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="226" y="903"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="111" y="924.9951">BrokersRegister</text></g><!--MD5=[2d5d98ac94b43ac4a6553ea0278e6ac6]
+entity WorkersRegister--><g id="elem_WorkersRegister"><rect fill="#F1F1F1" height="46.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="155" x="283.5" y="892"/><rect fill="#F1F1F1" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="418.5" y="897"/><rect fill="#F1F1F1" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="416.5" y="899"/><rect fill="#F1F1F1" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="416.5" y="903"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115" x="298.5" y="924.9951">WorkersRegister</text></g><!--MD5=[1c30891d5530255ffb06f48e3cc0e81d]
+entity service_tcp_ip--><g id="elem_service_tcp_ip"><ellipse cx="725" cy="551" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39" x="705.5" y="580.9951">tcp/ip</text></g><!--MD5=[3cb6608ef6fce7d0d92c2b7074c5d587]
+entity service_websocket--><g id="elem_service_websocket"><ellipse cx="865" cy="649" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="835.5" y="678.9951">ws+http</text></g><!--MD5=[80caa2079124837339c39d8c8dc64f36]
+entity service_kafka_js--><g id="elem_service_kafka_js"><ellipse cx="774" cy="649" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47" x="750.5" y="678.9951">kafkajs</text></g><!--MD5=[823f69c0793ff4acbd80a559420afab7]
+entity Worker--><g id="elem_Worker"><rect fill="#F1F1F1" height="46.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="89" x="756.5" y="750"/><rect fill="#F1F1F1" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="825.5" y="755"/><rect fill="#F1F1F1" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="823.5" y="757"/><rect fill="#F1F1F1" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="823.5" y="761"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="49" x="771.5" y="782.9951">Worker</text></g><!--MD5=[57220784cd10fd02b95ed95124c16164]
+entity network--><g id="elem_network"><path d="M583.3098,445.8085 C585.3706,440.3449 590.3303,439.8462 593.6236,444.5596 C597.5176,438.5319 601.7638,438.0603 606.2677,443.9103 C608.1001,436.8767 613.8035,435.0601 618.7497,440.8885 C623.2911,436.49 626.9501,437.9636 628.8751,443.5435 C632.3627,437.2549 638.7083,436.7285 641.9265,443.8066 C645.486,438.8432 649.3153,438.6668 652.5503,444.137 C660.458,447.8406 662.7218,453.2825 656.4436,460.3852 C664.3448,465.9838 662.227,472.4538 654.6486,476.3073 C651.4521,482.1701 647.6734,483.6243 642.6178,478.3081 C639.8465,484.8024 635.6716,485.0608 630.723,480.6924 C628.0486,487.3422 622.8671,488.8702 617.9888,482.9196 C613.6131,487.4244 608.1783,486.7945 606.067,480.4348 C601.3094,485.2586 595.085,484.0567 593.6123,476.9931 C589.659,483.4065 584.7868,482.5553 581.5653,476.2973 C574.5101,473.5073 572.9547,466.2029 578.4071,460.8549 C571.72,453.9345 575.7547,448.0882 583.3098,445.8085 " fill="#F1F1F1" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="57" x="588.5" y="463.9951">Network</text></g><!--MD5=[23a7fb2d2d41f5d03c786c3d642af2e1]
+entity kafka_protocol--><g id="elem_kafka_protocol"><path d="M548,636 L656,636 C661,636 661,649.1484 661,649.1484 C661,649.1484 661,662.2969 656,662.2969 L548,662.2969 C543,662.2969 543,649.1484 543,649.1484 C543,649.1484 543,636 548,636 " fill="#F1F1F1" style="stroke:#181818;stroke-width:0.5;"/><path d="M656,636 C651,636 651,649.1484 651,649.1484 C651,662.2969 656,662.2969 656,662.2969 " fill="none" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="98" x="548" y="653.9951">Kafka protocol</text></g><!--MD5=[b44cebf4911a8f245c1439f8f813de69]
+link client_main_thread to client_websocket--><g id="link_client_main_thread_client_websocket"><path d="M617,140.26 C617,160.74 617,190.73 617,209.81 " fill="none" id="client_main_thread-to-client_websocket" style="stroke:#181818;stroke-width:1.0;"/><path d="M625.4572,216.7818 A9,9 0 0 0 608.5428 216.7818" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[126a23854e756861b918ef9c3994d1f2]
+link client_websocket to client_tcp_ip--><g id="link_client_websocket_client_tcp_ip"><path d="M617,238.34 C617,256.9 617,301.98 617,327.53 " fill="none" id="client_websocket-to-client_tcp_ip" style="stroke:#181818;stroke-width:1.0;"/><path d="M625.4572,334.6518 A9,9 0 0 0 608.5428 334.6518" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[cebfbef7920983658425afb466a724ec]
+link client_tcp_ip to network--><g id="link_client_tcp_ip_network"><path d="M617,356.27 C617,372.96 617,411.16 617,435.71 " fill="none" id="client_tcp_ip-network" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[2d6bbff16712eabbd50fbc6202a14bdd]
+link network to router_tcp_ip--><g id="link_network_router_tcp_ip"><path d="M584.95,482.02 C559.34,499.62 524.39,523.63 503.61,537.9 " fill="none" id="network-to-router_tcp_ip" style="stroke:#181818;stroke-width:1.0;"/><path d="M502.4736,548.9512 A9,9 0 0 0 492.9023 535.0052" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[816f14929cf9c01c126b62bdc14b1c99]
+reverse link router_tcp_ip to router_websocket--><g id="link_router_tcp_ip_router_websocket"><path d="M482.99,570.05 C479.51,590.96 473.92,624.48 471.36,639.84 " fill="none" id="router_tcp_ip-backto-router_websocket" style="stroke:#181818;stroke-width:1.0;"/><path d="M475.7918,561.8259 A9,9 0 0 0 492.4761 564.6067" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[a1570e0c0ce0b5a49bf9c61c3102c666]
+reverse link router_tcp_ip to router_kafka_js--><g id="link_router_tcp_ip_router_kafka_js"><path d="M467.55,560.05 C460.11,563.49 451.52,567.69 444,572 C404.24,594.78 360.07,626.95 341.27,640.99 " fill="none" id="router_tcp_ip-backto-router_kafka_js" style="stroke:#181818;stroke-width:1.0;"/><path d="M470.5116,549.4418 A9,9 0 0 0 477.4306 564.8765" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[dd95a2f8bd242b8b1937f1a4add8cf33]
+reverse link router_kafka_js to Router--><g id="link_router_kafka_js_Router"><path d="M322.28,666.94 C309.92,688.48 288.54,725.74 274.85,749.61 " fill="none" id="router_kafka_js-backto-Router" style="stroke:#181818;stroke-width:1.0;"/><path d="M318.5409,656.4704 A9,9 0 0 0 333.2209 664.8727" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[dd88de2a0ec252bc5945153aefa8deca]
+reverse link Router to Clients--><g id="link_Router_Clients"><path d="M319.05,773 C326.15,773 333.25,773 340.34,773 " fill="none" id="Router-backto-Clients" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="305.84,773,311.84,777,317.84,773,311.84,769,305.84,773" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[858b1406f271f504258bb5ff4fa2d49c]
+reverse link Router to BrokersRegister--><g id="link_Router_BrokersRegister"><path d="M240.49,807.45 C223.68,833.61 200.78,869.23 186.19,891.92 " fill="none" id="Router-backto-BrokersRegister" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="247.74,796.18,241.1319,799.0667,241.2549,806.2767,247.863,803.3901,247.74,796.18" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[f7532c867506e927043eb5279d843657]
+reverse link Router to WorkersRegister--><g id="link_Router_WorkersRegister"><path d="M276.6,808.17 C287.39,831.07 303.55,861.12 323,884 C325.29,886.69 327.84,889.3 330.53,891.8 " fill="none" id="Router-backto-WorkersRegister" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="271.18,796.27,270.033,803.3893,276.1635,807.1863,277.3105,800.067,271.18,796.27" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[3062aa3d660f6b6e19745991a5f3e646]
+reverse link router_websocket to router_main_thread--><g id="link_router_websocket_router_main_thread"><path d="M468.95,668.23 C468.4725,676.585 467.8706,687.0969 467.2342,698.2019 C467.1944,698.8959 467.1545,699.5923 467.1145,700.2906 C467.0945,700.6398 467.0745,700.9894 467.0544,701.3395 C467.0444,701.5145 467.0343,701.6897 467.0243,701.8649 " fill="none" id="router_websocket-backto-router_main_thread" style="stroke:#181818;stroke-width:1.0;"/><path d="M460.9207,660.59 A9,9 0 0 0 477.8076 661.5563" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[d9add679cee362c7cbff268f6d8822b4]
+link network to service_tcp_ip--><g id="link_network_service_tcp_ip"><path d="M643.42,482.02 C663.41,498.68 690.31,521.09 707.65,535.54 " fill="none" id="network-to-service_tcp_ip" style="stroke:#181818;stroke-width:1.0;"/><path d="M718.8064,533.8313 A9,9 0 0 0 707.9827 546.8293" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[345b1284b4a8875161e6afff1d9f4089]
+reverse link service_tcp_ip to service_websocket--><g id="link_service_tcp_ip_service_websocket"><path d="M744.15,551.35 C765.4,551.58 799.75,554.92 823,572 C846.57,589.32 858.54,624.03 862.95,639.83 " fill="none" id="service_tcp_ip-backto-service_websocket" style="stroke:#181818;stroke-width:1.0;"/><path d="M737.2726,559.886 A9,9 0 0 0 737.1035 542.9724" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[19628eafe5a2171921b7135c474a8f66]
+reverse link service_tcp_ip to service_kafka_js--><g id="link_service_tcp_ip_service_kafka_js"><path d="M733.78,569.19 C744.41,590.03 761.89,624.27 769.83,639.84 " fill="none" id="service_tcp_ip-backto-service_kafka_js" style="stroke:#181818;stroke-width:1.0;"/><path d="M723.0468,566.7666 A9,9 0 0 0 738.1121 559.0767" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[95af3ee9be9419af5c26151a130b5f25]
+reverse link service_kafka_js to Worker--><g id="link_service_kafka_js_Worker"><path d="M777.95,667.83 C782.74,689.49 790.83,726.06 796.04,749.61 " fill="none" id="service_kafka_js-backto-Worker" style="stroke:#181818;stroke-width:1.0;"/><path d="M768.1767,662.8313 A9,9 0 0 0 784.6923 659.1799" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[a960848686a3e93a065383b0808ff608]
+reverse link service_websocket to service_main_thread--><g id="link_service_websocket_service_main_thread"><path d="M867.39,668.23 C868.485,676.585 869.8631,687.0969 871.3192,698.2019 C871.4102,698.8959 871.5015,699.5923 871.5931,700.2906 C871.6389,700.6398 871.6847,700.9894 871.7306,701.3395 C871.7536,701.5145 871.7765,701.6897 871.7995,701.8649 " fill="none" id="service_websocket-backto-service_main_thread" style="stroke:#181818;stroke-width:1.0;"/><path d="M858.0706,662.1629 A9,9 0 0 0 874.8384 659.9401" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[9193e5e0ab14ea14bd799b2d9bcad22c]
+reverse link router_tcp_ip to kafka_protocol--><g id="link_router_tcp_ip_kafka_protocol"><path d="M502.89,565.98 C525.61,584.78 565.67,617.93 587.24,635.79 " fill="none" id="router_tcp_ip-backto-kafka_protocol" style="stroke:#181818;stroke-width:1.0;"/><path d="M492.0784,568.0076 A9,9 0 0 0 502.864 554.978" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[a0900278efb9c8f5ff88283173c4bc5a]
+reverse link service_tcp_ip to kafka_protocol--><g id="link_service_tcp_ip_kafka_protocol"><path d="M707.57,565.6 C683.61,584.3 640.85,617.68 617.78,635.68 " fill="none" id="service_tcp_ip-backto-kafka_protocol" style="stroke:#181818;stroke-width:1.0;"/><path d="M708.129,554.4484 A9,9 0 0 0 718.5386 567.7804" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[5df90ade272ba76c537e69d4ad72fa72]
+@startuml io
+
+  node "Client container" as client_container {
+    node "Client process (V8 support)" as client_process {
+      node "Main thread" as client_main_thread {
+        
+      }
+      interface "ws+http" as client_websocket
+      client_main_thread - -( client_websocket
+    }
+    interface "tcp/ip" as client_tcp_ip
+    client_websocket - -( client_tcp_ip
+  }
+
+  cloud "Network" as network
+  client_tcp_ip - - network
+
+  node "Router container" as router_container {
+    interface "tcp/ip" as router_tcp_ip
+    network - -( router_tcp_ip
+
+    node "Router process (V8 support)" as router_process {
+      interface "ws+http" as router_websocket
+      router_tcp_ip )- router_websocket
+
+      interface "kafkajs" as router_kafka_js
+      router_tcp_ip )- - router_kafka_js
+
+      node "Main thread" as router_main_thread {
+        component Router
+        router_kafka_js )- - Router
+
+        component Clients
+        Router *- Clients
+
+        component BrokersRegister
+        Router *- - BrokersRegister
+
+        component WorkersRegister
+        Router *- - WorkersRegister
+      }
+      router_websocket )- - router_main_thread
+    }
+  }
+
+  node "Service container" as service_container {
+    interface "tcp/ip" as service_tcp_ip
+    network - -( service_tcp_ip
+
+    node "Service process (V8 support)" as service_process {
+      interface "ws+http" as service_websocket
+      service_tcp_ip )- service_websocket
+
+      interface "kafkajs" as service_kafka_js
+      service_tcp_ip )- - service_kafka_js
+
+      node "Main thread" as service_main_thread {
+        component Worker
+        service_kafka_js )- - Worker
+      }
+      service_websocket )- - service_main_thread
+    }
+  }
+
+  queue "Kafka protocol" as kafka_protocol
+  router_tcp_ip )- - kafka_protocol
+  service_tcp_ip )- - kafka_protocol
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 10:01:30 PDT 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

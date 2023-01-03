@@ -1,0 +1,40 @@
+{
+  "name": "@imazzine/mln.io",
+  "version": "0.0.0-alpha.0",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Artem Lytvynov",
+    "email": "buntarb@gmail.com"
+  },
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:imazzine/mln.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "dependencies": {
+    "@imazzine/mln.ts": "0.0.0-alpha.0",
+    "kafkajs": "^2.2.3"
+  },
+  "scripts": {
+    "lint": "node ../../node_modules/.bin/eslint -c ../../.eslintrc.js --parser-options=tsconfigRootDir:'./tsconfig' 'src/**/*.ts'",
+    "docs": "../../node_modules/.bin/typedoc ./src/index.ts --tsconfig ./tsconfig/cjs.json --out ./docs --includes ./",
+    "compile_cjs": "tsc -b ./tsconfig/cjs.json",
+    "compile_esm": "tsc -b ./tsconfig/esm.json",
+    "compile_dts": "tsc -b ./tsconfig/dts.json",
+    "compile_tst": "tsc -b ./tsconfig/tst.json",
+    "compile_all": "npm run compile_cjs && npm run compile_esm && npm run compile_dts",
+    "test": "../../node_modules/.bin/jest --config ../../.jestrc.js --roots ./packages/mln.io/tst --coverageDirectory ./packages/mln.io/coverage",
+    "build": "npm run lint && npm run compile_tst && npm run test -- --coverage && npm run docs && npm run compile_all",
+    "server": "clear && cd ./container && ./server.sh",
+    "io": "npm run compile_cjs && clear && export KAFKAJS_NO_PARTITIONER_WARNING=1 && node ./bin/io.js",
+    "worker": "npm run compile_cjs && clear && export KAFKAJS_NO_PARTITIONER_WARNING=1 && node ./bin/worker.js",
+    "client": "npm run compile_cjs && clear && export KAFKAJS_NO_PARTITIONER_WARNING=1 && node ./bin/client.js"
+  },
+  "types": "dts/index.d.ts",
+  "module": "esm/index.js",
+  "main": "cjs/index.js"
+}

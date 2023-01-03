@@ -1,0 +1,268 @@
+@startuml io
+
+  node "Client container" as client_container {
+    node "Client process (V8 support)" as client_process {
+      node "Main thread" as client_main_thread {
+        
+      }
+      interface "ws+http" as client_websocket
+      client_main_thread --( client_websocket
+    }
+    interface "tcp/ip" as client_tcp_ip
+    client_websocket --( client_tcp_ip
+  }
+
+  cloud "Network" as network
+  client_tcp_ip -- network
+
+  node "Router container" as router_container {
+    interface "tcp/ip" as router_tcp_ip
+    network --( router_tcp_ip
+
+    node "Router process (V8 support)" as router_process {
+      interface "ws+http" as router_websocket
+      router_tcp_ip )- router_websocket
+
+      interface "kafkajs" as router_kafka_js
+      router_tcp_ip )-- router_kafka_js
+
+      node "Main thread" as router_main_thread {
+        component Router
+        router_kafka_js )-- Router
+
+        component Clients
+        Router *- Clients
+
+        component BrokersRegister
+        Router *-- BrokersRegister
+
+        component WorkersRegister
+        Router *-- WorkersRegister
+      }
+      router_websocket )-- router_main_thread
+    }
+  }
+
+  node "Service container" as service_container {
+    interface "tcp/ip" as service_tcp_ip
+    network --( service_tcp_ip
+
+    node "Service process (V8 support)" as service_process {
+      interface "ws+http" as service_websocket
+      service_tcp_ip )- service_websocket
+
+      interface "kafkajs" as service_kafka_js
+      service_tcp_ip )-- service_kafka_js
+
+      node "Main thread" as service_main_thread {
+        component Worker
+        service_kafka_js )-- Worker
+      }
+      service_websocket )-- service_main_thread
+    }
+  }
+
+  queue "Kafka protocol" as kafka_protocol
+  router_tcp_ip )-- kafka_protocol
+  service_tcp_ip )-- kafka_protocol
+
+@enduml
+
+@startuml topics
+
+  object Headers {
+    +tenant: string
+    +token: string
+  }
+
+  object Brokers {
+    +key: string
+    +partition [f(key)]: string
+    +timestamp: string
+    +headers: Headers
+    +value: BrokerRegistered | BrokerRemoved
+  }
+  Headers *-- Brokers
+
+  object BrokerRegistered {
+    +uuid: string
+  }
+  Brokers --o BrokerRegistered
+
+  object BrokerRemoved {
+    +uuid: string
+  }
+  Brokers --o BrokerRemoved
+
+  object "Heartbeats[uuid]" as Heartbeats {
+    +key: string
+    +partition [f(key)]: string
+    +timestamp: string
+    +headers: Headers
+    +value: Heartbeat
+  }
+  Headers *-- Heartbeats
+
+  object Heartbeat {
+    +uuid: string
+  }
+  Heartbeats --o Heartbeat
+
+  object "Workers" as Workers {
+    +key: string
+    +partition [f(key)]: string
+    +timestamp: string
+    +headers: Headers
+    +value: WorkerRegistered | WorkerRemoved
+  }
+  Headers *-- Workers
+
+  object WorkerRegistered {
+    +uuid: string
+    +services: string[]
+  }
+  Workers --o WorkerRegistered
+
+  object WorkerRemoved {
+    +uuid: string
+    +services: string[]
+  }
+  Workers --o WorkerRemoved
+
+  object Requests {
+    +key: string
+    +partition [f(key)]: string
+    +timestamp: string
+    +headers: Headers
+    +value: Request
+  }
+  Headers *-- Requests
+
+  object Request {
+    +type: "open" | "close"
+    +broker: string
+    +service: string
+    +inbound: string
+    +outbound: string
+  }
+  Requests *-- Request
+
+  object Responses {
+    +key: string
+    +partition [f(key)]: string
+    +timestamp: string
+    +headers: Headers
+    +value: Response
+  }
+  Headers *-- Responses
+
+  object Response {
+    +type: "open" | "close"
+    +broker: string
+    +service: string
+    +inbound: string
+    +outbound: string
+    +approved: boolean
+  }
+  Responses *-- Response
+
+@enduml
+
+@startuml router_up
+
+  participant "Node" as Broker
+  queue "mln.io" as Io
+
+  group registration
+    Broker --> Io: send register message
+    Broker <-- Io: ack
+  end
+
+  group orchestration
+    group brokers
+      Broker --> Io: subscribe from the beginning
+      Broker <-- Io: messages
+      loop for each message
+        alt registered
+          Broker --> Broker: add registered broker to the list
+          Broker --> Io: subscribe for the registered heartbeat queue
+          Broker <-- Io: ack
+        else removed
+          Broker --> Broker: remove broker from the list
+          Broker --> Io: unsubscribe from the registered heartbeat queue
+          Broker <-- Io: ack
+        end
+      end
+    end
+    group workers
+      Broker --> Io: subscribe from the beginning
+      Broker <-- Io: messages
+      loop for each message
+        alt registered
+          Broker --> Broker: add registered worker to the list
+          Broker --> Io: subscribe for the registered heartbeat queue
+          Broker <-- Io: ack
+        else removed
+          Broker --> Broker: remove worker from the list
+          Broker --> Io: unsubscribe from the registered heartbeat queue
+          Broker <-- Io: ack
+        end
+      end
+    end
+  end
+
+  group heartbeating
+    Broker --> Io: heartbeat message
+    Broker <-- Io: ack
+  end
+
+@enduml
+
+@startuml worker_up
+
+  participant Worker
+  queue Heartbeat
+  queue Requests
+  queue Responses
+  queue Workers
+
+  group registration
+    Worker --> Heartbeat **: create heartbeat queue
+    Worker <-- Heartbeat: ack
+    Worker --> Requests **
+    Worker <-- Requests: ack
+    Worker --> Responses **
+    Worker <-- Responses: ack
+    Worker --> Workers: send registered message
+    Worker <-- Workers: ack
+  end
+
+  group heartbeating
+    Worker --> Heartbeat: heartbeat message
+    Worker <-- Heartbeat: ack
+  end
+
+@enduml
+
+@startuml types
+
+  class mln.io.Register extends mln.Node {
+    -interval: number
+    -register: Map<string, timeoutID>
+    -sendHeartbeat(): Promise<boolean>
+    -processHeartbeat(uid: string, timestamp: string): void
+  }
+
+  class mln.io.BrokersRegister extends mln.io.Register {
+  }
+
+  class mln.io.WorkersRegister extends mln.io.Register {
+    -services: Map<string, string[]>
+  }
+
+  class mln.io.Worker extends mln.Node {
+    -services: string[]
+    +constructor(services: string[]): Worker
+  }
+
+@enduml

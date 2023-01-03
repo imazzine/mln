@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="431px" preserveAspectRatio="none" style="width:1349px;height:431px;background:#FFFFFF;" version="1.1" viewBox="0 0 1349 431" width="1349px" zoomAndPan="magnify"><defs/><g><g id="elem_Headers"><rect fill="#F1F1F1" height="60.8906" style="stroke:#181818;stroke-width:0.5;" width="119" x="686.5" y="7"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58" x="717" y="21.9951">Headers</text><line style="stroke:#181818;stroke-width:0.5;" x1="687.5" x2="804.5" y1="27.2969" y2="27.2969"/><ellipse cx="697.5" cy="40.9453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93" x="706.5" y="44.292">tenant: string</text><ellipse cx="697.5" cy="57.2422" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88" x="706.5" y="60.5889">token: string</text></g><g id="elem_Brokers"><rect fill="#F1F1F1" height="109.7813" style="stroke:#181818;stroke-width:0.5;" width="318" x="14" y="128"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="146" y="142.9951">Brokers</text><line style="stroke:#181818;stroke-width:0.5;" x1="15" x2="331" y1="148.2969" y2="148.2969"/><ellipse cx="25" cy="161.9453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72" x="34" y="165.292">key: string</text><ellipse cx="25" cy="178.2422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="156" x="34" y="181.5889">partition [f(key)]: string</text><ellipse cx="25" cy="194.5391" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="34" y="197.8857">timestamp: string</text><ellipse cx="25" cy="210.8359" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="124" x="34" y="214.1826">headers: Headers</text><ellipse cx="25" cy="227.1328" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="292" x="34" y="230.4795">value: BrokerRegistered | BrokerRemoved</text></g><g id="elem_BrokerRegistered"><rect fill="#F1F1F1" height="44.5938" style="stroke:#181818;stroke-width:0.5;" width="136" x="7" y="338.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122" x="14" y="353.4951">BrokerRegistered</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="142" y1="358.7969" y2="358.7969"/><ellipse cx="18" cy="372.4453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="78" x="27" y="375.792">uuid: string</text></g><g id="elem_BrokerRemoved"><rect fill="#F1F1F1" height="44.5938" style="stroke:#181818;stroke-width:0.5;" width="126" x="178" y="338.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="185" y="353.4951">BrokerRemoved</text><line style="stroke:#181818;stroke-width:0.5;" x1="179" x2="303" y1="358.7969" y2="358.7969"/><ellipse cx="189" cy="372.4453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="78" x="198" y="375.792">uuid: string</text></g><g id="elem_Heartbeats"><rect fill="#F1F1F1" height="109.7813" style="stroke:#181818;stroke-width:0.5;" width="182" x="367" y="128"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="116" x="400" y="142.9951">Heartbeats[uuid]</text><line style="stroke:#181818;stroke-width:0.5;" x1="368" x2="548" y1="148.2969" y2="148.2969"/><ellipse cx="378" cy="161.9453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72" x="387" y="165.292">key: string</text><ellipse cx="378" cy="178.2422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="156" x="387" y="181.5889">partition [f(key)]: string</text><ellipse cx="378" cy="194.5391" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="387" y="197.8857">timestamp: string</text><ellipse cx="378" cy="210.8359" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="124" x="387" y="214.1826">headers: Headers</text><ellipse cx="378" cy="227.1328" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="113" x="387" y="230.4795">value: Heartbeat</text></g><g id="elem_Heartbeat"><rect fill="#F1F1F1" height="44.5938" style="stroke:#181818;stroke-width:0.5;" width="104" x="406" y="338.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="68" x="424" y="353.4951">Heartbeat</text><line style="stroke:#181818;stroke-width:0.5;" x1="407" x2="509" y1="358.7969" y2="358.7969"/><ellipse cx="417" cy="372.4453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="78" x="426" y="375.792">uuid: string</text></g><g id="elem_Workers"><rect fill="#F1F1F1" height="109.7813" style="stroke:#181818;stroke-width:0.5;" width="324" x="584" y="128"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="57" x="717.5" y="142.9951">Workers</text><line style="stroke:#181818;stroke-width:0.5;" x1="585" x2="907" y1="148.2969" y2="148.2969"/><ellipse cx="595" cy="161.9453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72" x="604" y="165.292">key: string</text><ellipse cx="595" cy="178.2422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="156" x="604" y="181.5889">partition [f(key)]: string</text><ellipse cx="595" cy="194.5391" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="604" y="197.8857">timestamp: string</text><ellipse cx="595" cy="210.8359" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="124" x="604" y="214.1826">headers: Headers</text><ellipse cx="595" cy="227.1328" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="298" x="604" y="230.4795">value: WorkerRegistered | WorkerRemoved</text></g><g id="elem_WorkerRegistered"><rect fill="#F1F1F1" height="60.8906" style="stroke:#181818;stroke-width:0.5;" width="141" x="571.5" y="330.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="125" x="579.5" y="345.4951">WorkerRegistered</text><line style="stroke:#181818;stroke-width:0.5;" x1="572.5" x2="711.5" y1="350.7969" y2="350.7969"/><ellipse cx="582.5" cy="364.4453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="78" x="591.5" y="367.792">uuid: string</text><ellipse cx="582.5" cy="380.7422" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115" x="591.5" y="384.0889">services: string[]</text></g><g id="elem_WorkerRemoved"><rect fill="#F1F1F1" height="60.8906" style="stroke:#181818;stroke-width:0.5;" width="141" x="747.5" y="330.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115" x="760.5" y="345.4951">WorkerRemoved</text><line style="stroke:#181818;stroke-width:0.5;" x1="748.5" x2="887.5" y1="350.7969" y2="350.7969"/><ellipse cx="758.5" cy="364.4453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="78" x="767.5" y="367.792">uuid: string</text><ellipse cx="758.5" cy="380.7422" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115" x="767.5" y="384.0889">services: string[]</text></g><g id="elem_Requests"><rect fill="#F1F1F1" height="109.7813" style="stroke:#181818;stroke-width:0.5;" width="182" x="943" y="128"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="67" x="1000.5" y="142.9951">Requests</text><line style="stroke:#181818;stroke-width:0.5;" x1="944" x2="1124" y1="148.2969" y2="148.2969"/><ellipse cx="954" cy="161.9453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72" x="963" y="165.292">key: string</text><ellipse cx="954" cy="178.2422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="156" x="963" y="181.5889">partition [f(key)]: string</text><ellipse cx="954" cy="194.5391" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="963" y="197.8857">timestamp: string</text><ellipse cx="954" cy="210.8359" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="124" x="963" y="214.1826">headers: Headers</text><ellipse cx="954" cy="227.1328" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="104" x="963" y="230.4795">value: Request</text></g><g id="elem_Request"><rect fill="#F1F1F1" height="109.7813" style="stroke:#181818;stroke-width:0.5;" width="171" x="948.5" y="306"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="1004.5" y="320.9951">Request</text><line style="stroke:#181818;stroke-width:0.5;" x1="949.5" x2="1118.5" y1="326.2969" y2="326.2969"/><ellipse cx="959.5" cy="339.9453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="145" x="968.5" y="343.292">type: "open" | "close"</text><ellipse cx="959.5" cy="356.2422" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93" x="968.5" y="359.5889">broker: string</text><ellipse cx="959.5" cy="372.5391" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="97" x="968.5" y="375.8857">service: string</text><ellipse cx="959.5" cy="388.8359" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="105" x="968.5" y="392.1826">inbound: string</text><ellipse cx="959.5" cy="405.1328" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="116" x="968.5" y="408.4795">outbound: string</text></g><g id="elem_Responses"><rect fill="#F1F1F1" height="109.7813" style="stroke:#181818;stroke-width:0.5;" width="182" x="1160" y="128"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="79" x="1211.5" y="142.9951">Responses</text><line style="stroke:#181818;stroke-width:0.5;" x1="1161" x2="1341" y1="148.2969" y2="148.2969"/><ellipse cx="1171" cy="161.9453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72" x="1180" y="165.292">key: string</text><ellipse cx="1171" cy="178.2422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="156" x="1180" y="181.5889">partition [f(key)]: string</text><ellipse cx="1171" cy="194.5391" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="1180" y="197.8857">timestamp: string</text><ellipse cx="1171" cy="210.8359" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="124" x="1180" y="214.1826">headers: Headers</text><ellipse cx="1171" cy="227.1328" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="116" x="1180" y="230.4795">value: Response</text></g><g id="elem_Response"><rect fill="#F1F1F1" height="126.0781" style="stroke:#181818;stroke-width:0.5;" width="171" x="1165.5" y="298"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="1215.5" y="312.9951">Response</text><line style="stroke:#181818;stroke-width:0.5;" x1="1166.5" x2="1335.5" y1="318.2969" y2="318.2969"/><ellipse cx="1176.5" cy="331.9453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="145" x="1185.5" y="335.292">type: "open" | "close"</text><ellipse cx="1176.5" cy="348.2422" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93" x="1185.5" y="351.5889">broker: string</text><ellipse cx="1176.5" cy="364.5391" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="97" x="1185.5" y="367.8857">service: string</text><ellipse cx="1176.5" cy="380.8359" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="105" x="1185.5" y="384.1826">inbound: string</text><ellipse cx="1176.5" cy="397.1328" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="116" x="1185.5" y="400.4795">outbound: string</text><ellipse cx="1176.5" cy="413.4297" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="130" x="1185.5" y="416.7764">approved: boolean</text></g><!--MD5=[37d502393b0c8e218b93ad8bca23e4c4]
+reverse link Headers to Brokers--><g id="link_Headers_Brokers"><path codeLine="14" d="M673.63,53.09 C593.74,69.6 461.55,98.09 349,128 C343.44,129.48 337.79,131.01 332.09,132.59 " fill="none" id="Headers-backto-Brokers" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="686.47,50.45,679.7885,47.7374,674.7148,52.8617,681.3963,55.5742,686.47,50.45" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[d81c13f51e653ac41836b30b2f7f2403]
+link Brokers to BrokerRegistered--><g id="link_Brokers_BrokerRegistered"><path codeLine="19" d="M142.8,238.24 C126.65,267.23 107.3,301.98 93.42,326.93 " fill="none" id="Brokers-to-BrokerRegistered" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="87.07,338.32,93.4847,335.0258,92.9111,327.8376,86.4964,331.1317,87.07,338.32" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[4246940ff2a6b9663d7101ae3167109a]
+link Brokers to BrokerRemoved--><g id="link_Brokers_BrokerRemoved"><path codeLine="24" d="M193.96,238.24 C205.01,266.84 218.22,301.04 227.83,325.9 " fill="none" id="Brokers-to-BrokerRemoved" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="232.62,338.32,234.189,331.2817,228.2955,327.1263,226.7265,334.1647,232.62,338.32" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[37e2cf651c8654ec26d2329d55536173]
+reverse link Headers to Heartbeats--><g id="link_Headers_Heartbeats"><path codeLine="33" d="M674.54,73.98 C641.5,90.4 601.74,110.18 566,128 C560.47,130.76 554.77,133.6 549.03,136.47 " fill="none" id="Headers-backto-Heartbeats" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="686.39,68.1,679.2368,67.188,675.6437,73.4402,682.7969,74.3522,686.39,68.1" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[1057b4aba0ab0e4427fe30960a190d7a]
+link Heartbeats to Heartbeat--><g id="link_Heartbeats_Heartbeat"><path codeLine="38" d="M458,238.24 C458,266.57 458,300.41 458,325.21 " fill="none" id="Heartbeats-to-Heartbeat" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="458,338.32,462,332.32,458,326.32,454,332.32,458,338.32" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[72f274444556165596e7c43d7c7bcb38]
+reverse link Headers to Workers--><g id="link_Headers_Workers"><path codeLine="47" d="M746,81.54 C746,96.13 746,112.61 746,127.94 " fill="none" id="Headers-backto-Workers" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="746,68.23,742,74.23,746,80.23,750,74.23,746,68.23" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[65cc8656accbe55024cb6942d670e4dc]
+link Workers to WorkerRegistered--><g id="link_Workers_WorkerRegistered"><path codeLine="53" d="M713.95,238.24 C698.51,264.37 680.31,295.17 666.07,319.26 " fill="none" id="Workers-to-WorkerRegistered" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="659.43,330.5,665.927,327.3713,665.5379,320.1707,659.0408,323.2994,659.43,330.5" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[318027588e3b138887ff338e6edef07e]
+link Workers to WorkerRemoved--><g id="link_Workers_WorkerRemoved"><path codeLine="59" d="M768.19,238.24 C778.73,264.01 791.14,294.33 800.93,318.27 " fill="none" id="Workers-to-WorkerRemoved" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="805.93,330.5,807.3565,323.4314,801.3802,319.396,799.9538,326.4646,805.93,330.5" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[f434a16116d7314196b72ec8ef572bfc]
+reverse link Headers to Requests--><g id="link_Headers_Requests"><path codeLine="68" d="M817.31,74.03 C855.28,92.95 902.39,116.42 942.98,136.65 " fill="none" id="Headers-backto-Requests" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="805.32,68.06,808.9069,74.3157,816.061,73.4107,812.4741,67.155,805.32,68.06" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[e3c97bb47c5ecfa130e101bcf34173e3]
+reverse link Requests to Request--><g id="link_Requests_Request"><path codeLine="77" d="M1034,251.43 C1034,269.46 1034,288.72 1034,305.94 " fill="none" id="Requests-backto-Request" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="1034,238.24,1030,244.24,1034,250.24,1038,244.24,1034,238.24" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[465fb1f2eeec464ef1e8f222e87e1409]
+reverse link Headers to Responses--><g id="link_Headers_Responses"><path codeLine="86" d="M818.77,49.47 C899.54,62.88 1033,88.76 1143,128 C1148.53,129.97 1154.14,132.16 1159.75,134.49 " fill="none" id="Headers-backto-Responses" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="805.78,47.34,811.055,52.2567,817.6224,49.2786,812.3474,44.3618,805.78,47.34" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[7833924a02ebc309eb4a904901395ea1]
+reverse link Responses to Response--><g id="link_Responses_Response"><path codeLine="96" d="M1251,251.41 C1251,266.7 1251,282.87 1251,297.93 " fill="none" id="Responses-backto-Response" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="1251,238.24,1247,244.24,1251,250.24,1255,244.24,1251,238.24" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[9e8a6f7b4208bd2c2ab191e2eb2ae462]
+@startuml topics
+
+  object Headers {
+    +tenant: string
+    +token: string
+  }
+
+  object Brokers {
+    +key: string
+    +partition [f(key)]: string
+    +timestamp: string
+    +headers: Headers
+    +value: BrokerRegistered | BrokerRemoved
+  }
+  Headers *- - Brokers
+
+  object BrokerRegistered {
+    +uuid: string
+  }
+  Brokers - -o BrokerRegistered
+
+  object BrokerRemoved {
+    +uuid: string
+  }
+  Brokers - -o BrokerRemoved
+
+  object "Heartbeats[uuid]" as Heartbeats {
+    +key: string
+    +partition [f(key)]: string
+    +timestamp: string
+    +headers: Headers
+    +value: Heartbeat
+  }
+  Headers *- - Heartbeats
+
+  object Heartbeat {
+    +uuid: string
+  }
+  Heartbeats - -o Heartbeat
+
+  object "Workers" as Workers {
+    +key: string
+    +partition [f(key)]: string
+    +timestamp: string
+    +headers: Headers
+    +value: WorkerRegistered | WorkerRemoved
+  }
+  Headers *- - Workers
+
+  object WorkerRegistered {
+    +uuid: string
+    +services: string[]
+  }
+  Workers - -o WorkerRegistered
+
+  object WorkerRemoved {
+    +uuid: string
+    +services: string[]
+  }
+  Workers - -o WorkerRemoved
+
+  object Requests {
+    +key: string
+    +partition [f(key)]: string
+    +timestamp: string
+    +headers: Headers
+    +value: Request
+  }
+  Headers *- - Requests
+
+  object Request {
+    +type: "open" | "close"
+    +broker: string
+    +service: string
+    +inbound: string
+    +outbound: string
+  }
+  Requests *- - Request
+
+  object Responses {
+    +key: string
+    +partition [f(key)]: string
+    +timestamp: string
+    +headers: Headers
+    +value: Response
+  }
+  Headers *- - Responses
+
+  object Response {
+    +type: "open" | "close"
+    +broker: string
+    +service: string
+    +inbound: string
+    +outbound: string
+    +approved: boolean
+  }
+  Responses *- - Response
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 10:01:30 PDT 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

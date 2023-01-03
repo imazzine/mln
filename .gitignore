@@ -1,0 +1,16 @@
+/.vscode
+/packages/**/coverage
+/packages/**/docs
+/packages/**/build
+/packages/**/bin
+/packages/**/cjs
+/packages/**/dts
+/packages/**/es5
+/packages/**/esm
+/packages/**/tst
+/packages/**/tsconfig/*.tsbuildinfo
+/packages/**/node_modules
+/packages/**/npm-debug.log
+/node_modules
+lerna-debug.log
+npm-debug.log

@@ -1,0 +1,36 @@
+{
+  "name": "@imazzine/mln.ts",
+  "version": "0.0.0-alpha.0",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Artem Lytvynov",
+    "email": "buntarb@gmail.com"
+  },
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:imazzine/mln.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "dependencies": {
+    "uuid": "^9.0.0",
+    "throttle-debounce": "^5.0.0"
+  },
+  "scripts": {
+    "lint": "node ../../node_modules/.bin/eslint -c ../../.eslintrc.js --parser-options=tsconfigRootDir:'./tsconfig' 'src/**/*.ts'",
+    "docs": "../../node_modules/.bin/typedoc ./src/index.ts --tsconfig ./tsconfig/cjs.json --out ./docs --includes ./",
+    "compile_cjs": "tsc -b ./tsconfig/cjs.json",
+    "compile_esm": "tsc -b ./tsconfig/esm.json",
+    "compile_dts": "tsc -b ./tsconfig/dts.json",
+    "compile_tst": "tsc -b ./tsconfig/tst.json",
+    "compile_all": "npm run compile_cjs && npm run compile_esm && npm run compile_dts",
+    "test": "../../node_modules/.bin/jest --config ../../.jestrc.js --roots ./packages/mln.ts/tst --coverageDirectory ./packages/mln.ts/coverage",
+    "build": "npm run lint && npm run compile_tst && npm run test -- --coverage && npm run docs && npm run compile_all"
+  },
+  "types": "dts/index.d.ts",
+  "module": "esm/index.js",
+  "main": "cjs/index.js"
+}
