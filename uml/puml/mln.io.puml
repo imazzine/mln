@@ -266,3 +266,257 @@
   }
 
 @enduml
+
+@startuml sequence
+
+  participant "Node 1" as Node1
+  participant "Node 2" as Node2
+  participant "Node N" as NodeN
+
+  database "Kafka API" as kafkaIO
+  queue "uid1" as uid1IO
+  queue "uid2" as uid2IO
+  queue "uidN" as uidNIO
+
+  group start
+    -> Node1: running node
+    Node1 -> uid1IO **: create topic
+    Node1 <- uid1IO: ack
+    Node1 -> Node1: created
+  end
+
+  group ping
+    Node1 -> kafkaIO: list_groups
+    Node1 <- kafkaIO: list_groups
+    Node1 -> Node1: sync: workers
+  end
+
+  group start
+    -> Node2: running node
+    Node2 -> uid2IO **: create topic
+    Node2 <- uid2IO: ack
+    Node2 -> Node2: created
+  end
+
+  group ping
+    Node2 -> kafkaIO: list_groups
+    Node2 <- kafkaIO: list_groups
+    Node2 -> Node2: sync: workers
+  end
+
+  group sync
+    Node2 -> uid1IO: sync: [uid2, uid1], resources
+    Node1 <- uid1IO: sync: [uid2, uid1], resources
+    Node1 -> Node1: updated: uid2, resources
+
+    Node1 -> uid2IO: sync: [uid2, uid1], resources
+    Node2 <- uid2IO: sync: [uid2, uid1], resources
+    Node2 -> Node2: updated: uid1, resources
+  end
+
+  group start
+    -> NodeN: running node
+    NodeN -> uidNIO **
+  end
+
+  group ping
+    NodeN -> kafkaIO: list_groups
+    NodeN <- kafkaIO: list_groups
+    NodeN -> NodeN: sync: workers
+  end
+
+  group sync
+    NodeN -> uid1IO: sync: [uidN, uid1], resources
+    Node1 <- uid1IO: sync: [uidN, uid1], resources
+    Node1 -> Node1: updated: uidN, resources
+
+    Node1 -> uidNIO: sync: [uidN, uid1], resources
+    NodeN <- uidNIO: sync: [uidN, uid1], resources
+    NodeN -> NodeN: updated: uid1, resources
+  end
+
+  group sync
+    NodeN -> uid2IO: sync: [uidN, uid2], resources
+    Node2 <- uid2IO: sync: [uidN, uid2], resources
+    Node2 -> Node2: updated: uidN, resources
+
+    Node2 -> uidNIO: sync: [uidN, uid2], resources
+    NodeN <- uidNIO: sync: [uidN, uid2], resources
+    NodeN -> NodeN: updated: uid2, resources
+  end
+
+  group ping
+    Node1 -> kafkaIO: list_groups
+    Node1 <- kafkaIO: list_groups
+    Node1 -> Node1: sync: workers
+  end
+
+  group ping
+    Node2 -> kafkaIO: list_groups
+    Node2 <- kafkaIO: list_groups
+    Node2 -> Node2: sync: workers
+  end
+
+  group ping
+    NodeN -> kafkaIO: list_groups
+    NodeN <- kafkaIO: list_groups
+    NodeN -> NodeN: sync: workers
+  end
+
+  group connect
+    group rate
+      Node1 -> Node1: rate: uid1, resource, number
+    end
+
+    group rate
+      Node1 -> uid2IO: rate: [uid1, uid2], resource
+      Node2 <- uid2IO: rate: [uid1, uid2], resource
+      Node2 -> uid2IO: rate: [uid1, uid2], resource, number
+      Node1 <- uid2IO: rate: [uid1, uid2], resource, number
+      Node1 -> Node1: rate: uid2, resource, number
+    end
+
+    group rate
+      Node1 -> uidNIO: rate: [uid1, uidN], resource
+      NodeN <- uidNIO: rate: [uid1, uidN], resource
+      NodeN -> uidNIO: rate: [uid1, uidN], resource, number
+      Node1 <- uidNIO: rate: [uid1, uidN], resource, number
+      Node1 -> Node1: rate: uidN, resource, number
+    end
+
+    Node1 -> Node1: connecting: uidN
+  end
+
+  group connecting
+    Node1 -> Node1: stream: [uid1, uidN]
+    Node1 -> uidNIO: stream: [uid1, uidN]
+    NodeN <- uidNIO: stream: [uid1, uidN]
+    NodeN -> NodeN: stream: [uid1, uidN]
+    NodeN -> uid1IO: stream: [uid1, uidN]
+    NodeN -> NodeN: connected: [uid1, [in, out]]
+    Node1 <- uid1IO: stream: [uid1, uidN]
+    Node1 -> Node1: connected: [uidN, [in, out]]
+  end
+
+  group connected
+    Node1 -> uidNIO: data
+    NodeN <- uidNIO: data
+    NodeN -> uid1IO: data
+    Node1 <- uid1IO: data
+  end
+
+  group disconnect
+    NodeN -> NodeN: disconnected: uid1
+    NodeN -> uid1IO: unstream: [uidN, uid1]
+    Node1 <- uid1IO: unstream: [uidN, uid1]
+    Node1 -> Node1: disconnected: uidN
+    Node1 -> Node1: unstream: [uidN, uid1]
+    Node1 -> uidNIO: unstream: [uidN, uid1]
+    NodeN <- uidNIO: unstream: [uidN, uid1]
+    NodeN -> NodeN: unstream: [uidN, uid1]
+  end
+
+@enduml
+
+@startuml Worker
+
+  object process.env {
+    +MLN_KAFKA_HOSTS: localhost:9092,127.0.0.1:9092
+    ....
+    +MLN_KAFKA_CONNECTION_TIMEOUT: default 10000 ms
+    +MLN_KAFKA_CONNECTION_IDLE: default 300000 ms
+    ....
+    +MLN_KAFKA_REQUEST_TIMEOUT: default 30000 ms
+    +MLN_KAFKA_REQUEST_MAX_ASYNC: default 10
+    ....
+    +MLN_KAFKA_PRODUCER_HIGH_WATER_MARK: default 100
+    +MLN_KAFKA_PRODUCER_ACK_TIMEOUT: default 100 ms
+    ....
+    +MLN_KAFKA_CONSUMER_HIGH_WATER_MARK: default 100
+    +MLN_KAFKA_CONSUMER_FETCH_MAX_WAIT: default 100 ms
+    +MLN_KAFKA_CONSUMER_FETCH_MIN_BYTES: default 1
+    +MLN_KAFKA_CONSUMER_FETCH_MAX_BYTES: default 1024 * 1024
+  }
+
+  class Worker {
+    -_client: kafka.KafkaClient
+    -_producer: kafka.ProducerStream
+    -_consumer: kafka.ConsumerStream
+    -_resources: Map<resource, workers[]>
+    -_workers: Map<worker, resources[]>
+    -_connections: Map<worker, [out: Readable, in: Writable]>
+    ....
+    #getRate(resource: string): number
+    ....
+    +ping(): void
+    +sync([worker, worker]): void
+    +rate(resource: string): void
+    ....
+    +register(resource: string): void
+    +unregister(resource: string): void
+    ....
+    +connect(worker: string): void
+    +disconnect(worker: string): void
+  }
+  process.env --> Worker: use to connect to the kafka
+
+  class Ready {
+    +type: "ready"
+  }
+  Ready <- Worker: dispatch
+
+  class Sync {
+    +type: "sync"
+    +scope: workers
+  }
+  Sync <- Worker: .ping() -> dispatch\nwith workers
+
+  class Updated {
+    +type: "updated"
+    +scope: [worker, resources]
+  }
+  Worker --> Updated: dispatch
+
+  class Removed {
+    +type: "removed"
+    +scope: [worker, resources]
+  }
+  Worker --> Removed: dispatch
+
+  class Rate {
+    +type: "rate"
+    +scope: [ worker, resource, number ]
+  }
+  Worker --> Rate: dispatch
+
+  class Connecting {
+    +type: "connecting"
+    +scope: worker
+  }
+  Worker --> Connecting: dispatch
+
+  class Stream {
+    +type: "stream"
+    +scope: [worker, worker]
+  }
+  Worker --> Stream: dispatch
+
+  class Connected {
+    +type: "connected"
+    +scope: [worker, [out, in]]
+  }
+  Worker --> Connected: dispatch
+
+  class Disonnected {
+    +type: "disconnected"
+    +scope: worker
+  }
+  Worker -> Disonnected: dispatch
+
+  class Unstream {
+    +type: "unstream"
+    +scope: [worker, worker]
+  }
+  Worker -> Unstream: dispatch
+
+@enduml
