@@ -282,7 +282,7 @@
     -> Node1: running node
     Node1 -> uid1IO **: create topic
     Node1 <- uid1IO: ack
-    Node1 -> Node1: created
+    Node1 -> Node1: ready
   end
 
   group ping
@@ -295,7 +295,7 @@
     -> Node2: running node
     Node2 -> uid2IO **: create topic
     Node2 <- uid2IO: ack
-    Node2 -> Node2: created
+    Node2 -> Node2: ready
   end
 
   group ping
@@ -317,6 +317,8 @@
   group start
     -> NodeN: running node
     NodeN -> uidNIO **
+    NodeN <- uidNIO: ack
+    NodeN -> NodeN: ready
   end
 
   group ping
