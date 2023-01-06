@@ -1,0 +1,38 @@
+namespace worker;
+
+struct Uid { uid: [uint8: 16]; }
+struct Resource { path: [uint8: 255]; }
+
+enum Category: byte { Req, Res, Msg }
+
+enum Type: byte { Sync, Rate, Stream, Unstream, Content }
+
+table Sync {
+  resources: [Resource];
+}
+
+table Rate {
+  worker: Uid;
+  resource: Resource;
+  rating: short;
+}
+
+table Stream {}
+
+table Unstream {}
+
+table Content {
+  data: [uint8];
+}
+
+union Scope { Sync, Rate, Stream, Unstream, Content }
+
+table Message {
+  category: Category;
+  type: Type;
+  source: Uid;
+  target: Uid;
+  scope: Scope;
+}
+
+root_type Message;

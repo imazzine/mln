@@ -8,6 +8,7 @@
 /packages/**/es5
 /packages/**/esm
 /packages/**/tst
+/packages/**/src/.fbs
 /packages/**/tsconfig/*.tsbuildinfo
 /packages/**/node_modules
 /packages/**/npm-debug.log

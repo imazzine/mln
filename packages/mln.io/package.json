@@ -22,6 +22,7 @@
   "scripts": {
     "lint": "node ../../node_modules/.bin/eslint -c ../../.eslintrc.js --parser-options=tsconfigRootDir:'./tsconfig' 'src/**/*.ts'",
     "docs": "../../node_modules/.bin/typedoc ./src/index.ts --tsconfig ./tsconfig/cjs.json --out ./docs --includes ./",
+    "compile_fbs": "flatc --ts -o ./src/.fbs -I ./fbs ./fbs/index.fbs",
     "compile_cjs": "tsc -b ./tsconfig/cjs.json",
     "compile_esm": "tsc -b ./tsconfig/esm.json",
     "compile_dts": "tsc -b ./tsconfig/dts.json",
