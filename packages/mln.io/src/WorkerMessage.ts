@@ -17,7 +17,6 @@ import {
   Stream,
   Unstream,
   Content,
-  Resource,
 } from "./.fbs/index_generated";
 
 export type Options =
@@ -28,6 +27,7 @@ export type Options =
       source: string;
       target: string;
       scope:
+        | null
         | { resources: string[] }
         | { worker: string; resource: string; rating: number }
         | { data: Uint8Array };
@@ -62,9 +62,41 @@ export class WorkerMessage {
     return stringify(val);
   }
 
-  // public get scope() {
-  //   //
-  // }
+  public get scope():
+    | null
+    | { resources: string[] }
+    | { worker: string; resource: string; rating: number }
+    | { data: Uint8Array } {
+    if (this.type === Type.Sync) {
+      const resources: string[] = [];
+      const sync: Sync = <Sync>(
+        (<unknown>this._message.scope(new Sync()))
+      );
+      for (let i = 0; i < sync.resourcesLength(); i++) {
+        const res = sync.resources(i);
+        resources.push(res);
+      }
+      return { resources: resources };
+    } else if (this.type === Type.Rate) {
+      const uid: number[] = [];
+      const rate: Rate = <Rate>(
+        (<unknown>this._message.scope(new Rate()))
+      );
+      for (let i = 0; i < Uid.sizeOf(); i++) {
+        uid.push(<number>rate.worker()?.uid(i));
+      }
+      const worker = stringify(uid);
+      const resource = <string>rate.resource();
+      const rating = rate.rating();
+      return { worker, resource, rating };
+    } else if (this.type === Type.Content) {
+      const content: Content = <Content>(
+        (<unknown>this._message.scope(new Content()))
+      );
+      return { data: <Uint8Array>content.dataArray() };
+    }
+    return null;
+  }
 
   constructor(options: Options) {
     this._builder = new Builder(1024);
@@ -73,15 +105,6 @@ export class WorkerMessage {
       this._buff = new ByteBuffer(options);
       this._message = Message.getRootAsMessage(this._buff);
     } else {
-      const src = Uid.createUid(
-        this._builder,
-        <number[]>parse(options.source),
-      );
-      const trg = Uid.createUid(
-        this._builder,
-        <number[]>parse(options.target),
-      );
-
       let offset;
       switch (options.type) {
         case Type.Sync:
@@ -117,7 +140,15 @@ export class WorkerMessage {
       Message.startMessage(this._builder);
       Message.addCategory(this._builder, options.category);
       Message.addType(this._builder, options.type);
+      const src = Uid.createUid(
+        this._builder,
+        <number[]>parse(options.source),
+      );
       Message.addSource(this._builder, src);
+      const trg = Uid.createUid(
+        this._builder,
+        <number[]>parse(options.target),
+      );
       Message.addTarget(this._builder, trg);
       Message.addScope(this._builder, offset);
       Message.finishMessageBuffer(
@@ -130,21 +161,18 @@ export class WorkerMessage {
   }
 
   private _getSyncOffset(scope: { resources: string[] }): number {
-    Sync.startResourcesVector(
-      this._builder,
-      Object.keys(scope.resources).length,
-    );
-    Object.keys(scope.resources).forEach((resource) => {
-      Resource.createResource(
-        this._builder,
-        <number[]>(
-          (<unknown>Uint8Array.from(Buffer.from(resource, "utf8")))
-        ),
-      );
+    const res: number[] = [];
+    scope.resources.forEach((resource) => {
+      res.push(this._builder.createString(resource));
     });
-    const resources = this._builder.endVector();
+    // eslint-disable-next-line max-len
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
+    const vec: number = Sync.createResourcesVector(
+      this._builder,
+      res,
+    );
     Sync.startSync(this._builder);
-    Sync.addResources(this._builder, resources);
+    Sync.addResources(this._builder, vec);
     return Sync.endSync(this._builder);
   }
 
@@ -153,19 +181,12 @@ export class WorkerMessage {
     resource: string;
     rating: number;
   }): number {
+    const resource = this._builder.createString(scope.resource);
+    Rate.startRate(this._builder);
     const worker = Uid.createUid(
       this._builder,
       <number[]>parse(scope.worker),
     );
-    const resource = Resource.createResource(
-      this._builder,
-      <number[]>(
-        (<unknown>(
-          Uint8Array.from(Buffer.from(scope.resource, "utf8"))
-        ))
-      ),
-    );
-    Rate.startRate(this._builder);
     Rate.addWorker(this._builder, worker);
     Rate.addResource(this._builder, resource);
     Rate.addRating(this._builder, scope.rating);
@@ -187,5 +208,9 @@ export class WorkerMessage {
     Content.startContent(this._builder);
     Content.addData(this._builder, data);
     return Content.endContent(this._builder);
+  }
+
+  public serialize(): Uint8Array {
+    return this._builder.asUint8Array();
   }
 }

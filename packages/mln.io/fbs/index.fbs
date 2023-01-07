@@ -1,19 +1,18 @@
 namespace worker;
 
 struct Uid { uid: [uint8: 16]; }
-struct Resource { path: [uint8: 255]; }
 
 enum Category: byte { Req, Res, Msg }
 
 enum Type: byte { Sync, Rate, Stream, Unstream, Content }
 
 table Sync {
-  resources: [Resource];
+  resources: [string];
 }
 
 table Rate {
   worker: Uid;
-  resource: Resource;
+  resource: string;
   rating: short;
 }
 
