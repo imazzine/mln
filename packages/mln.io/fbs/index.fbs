@@ -2,7 +2,7 @@ namespace worker;
 
 struct Uid { uid: [uint8: 16]; }
 
-enum Category: byte { Req, Res, Msg }
+enum Mode: byte { Req, Res, Msg }
 
 enum Type: byte { Sync, Rate, Stream, Unstream, Content }
 
@@ -27,7 +27,7 @@ table Content {
 union Scope { Sync, Rate, Stream, Unstream, Content }
 
 table Message {
-  category: Category;
+  mode: Mode;
   type: Type;
   source: Uid;
   target: Uid;

@@ -14,10 +14,10 @@
 // export { IoRoot, IoWorker, IoNode };
 
 import { WorkerMessage } from "./WorkerMessage";
-import { Category, Type } from "./.fbs/index_generated";
+import { Mode, Type } from "./.fbs/index_generated";
 
 const message1 = new WorkerMessage({
-  category: Category.Msg,
+  mode: Mode.Msg,
   type: Type.Sync,
   source: "00000000-0000-0000-0000-000000000000",
   target: "00000000-0000-0000-0000-000000000000",
@@ -27,14 +27,14 @@ const message1 = new WorkerMessage({
 });
 const message2 = new WorkerMessage(message1.serialize());
 
-console.log(message1.category, message2.category);
+console.log(message1.mode, message2.mode);
 console.log(message1.type, message2.type);
 console.log(message1.source, message2.source);
 console.log(message1.target, message2.target);
 console.log(message1.scope, message2.scope);
 
 const message3 = new WorkerMessage({
-  category: Category.Msg,
+  mode: Mode.Msg,
   type: Type.Rate,
   source: "00000000-0000-0000-0000-000000000000",
   target: "00000000-0000-0000-0000-000000000000",
@@ -46,14 +46,14 @@ const message3 = new WorkerMessage({
 });
 const message4 = new WorkerMessage(message3.serialize());
 
-console.log(message3.category, message4.category);
+console.log(message3.mode, message4.mode);
 console.log(message3.type, message4.type);
 console.log(message3.source, message4.source);
 console.log(message3.target, message4.target);
 console.log(message3.scope, message4.scope);
 
 const message5 = new WorkerMessage({
-  category: Category.Msg,
+  mode: Mode.Msg,
   type: Type.Content,
   source: "00000000-0000-0000-0000-000000000000",
   target: "00000000-0000-0000-0000-000000000000",
@@ -63,14 +63,14 @@ const message5 = new WorkerMessage({
 });
 const message6 = new WorkerMessage(message5.serialize());
 
-console.log(message5.category, message6.category);
+console.log(message5.mode, message6.mode);
 console.log(message5.type, message6.type);
 console.log(message5.source, message6.source);
 console.log(message5.target, message6.target);
 console.log(message5.scope, message6.scope);
 
 const message7 = new WorkerMessage({
-  category: Category.Msg,
+  mode: Mode.Msg,
   type: Type.Stream,
   source: "00000000-0000-0000-0000-000000000000",
   target: "00000000-0000-0000-0000-000000000000",
@@ -78,14 +78,14 @@ const message7 = new WorkerMessage({
 });
 const message8 = new WorkerMessage(message7.serialize());
 
-console.log(message7.category, message8.category);
+console.log(message7.mode, message8.mode);
 console.log(message7.type, message8.type);
 console.log(message7.source, message8.source);
 console.log(message7.target, message8.target);
 console.log(message7.scope, message8.scope);
 
 const message9 = new WorkerMessage({
-  category: Category.Msg,
+  mode: Mode.Msg,
   type: Type.Unstream,
   source: "00000000-0000-0000-0000-000000000000",
   target: "00000000-0000-0000-0000-000000000000",
@@ -93,8 +93,10 @@ const message9 = new WorkerMessage({
 });
 const message0 = new WorkerMessage(message9.serialize());
 
-console.log(message9.category, message0.category);
+console.log(message9.mode, message0.mode);
 console.log(message9.type, message0.type);
 console.log(message9.source, message0.source);
 console.log(message9.target, message0.target);
 console.log(message9.scope, message0.scope);
+
+console.log(message1.serialize());

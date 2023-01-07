@@ -9,7 +9,7 @@ import { parse, stringify } from "uuid";
 import { ByteBuffer, Builder } from "flatbuffers";
 import {
   Message,
-  Category,
+  Mode,
   Type,
   Uid,
   Sync,
@@ -22,7 +22,7 @@ import {
 export type Options =
   | Uint8Array
   | {
-      category: Category;
+      mode: Mode;
       type: Type;
       source: string;
       target: string;
@@ -38,8 +38,8 @@ export class WorkerMessage {
   private _message: Message;
   private _builder: Builder;
 
-  public get category(): Category {
-    return this._message.category();
+  public get mode(): Mode {
+    return this._message.mode();
   }
 
   public get type(): Type {
@@ -138,7 +138,7 @@ export class WorkerMessage {
           throw TypeError("Unsupported message type.");
       }
       Message.startMessage(this._builder);
-      Message.addCategory(this._builder, options.category);
+      Message.addMode(this._builder, options.mode);
       Message.addType(this._builder, options.type);
       const src = Uid.createUid(
         this._builder,
