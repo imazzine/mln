@@ -13,7 +13,8 @@
 
 // export { IoRoot, IoWorker, IoNode };
 
-import { WorkerMessage } from "./WorkerMessage";
+import { Worker } from "./worker/Worker";
+import { WorkerMessage } from "./worker/messages";
 import { Mode, Type } from "./.fbs/index_generated";
 
 const message1 = new WorkerMessage({
@@ -58,6 +59,7 @@ const message5 = new WorkerMessage({
   source: "00000000-0000-0000-0000-000000000000",
   target: "00000000-0000-0000-0000-000000000000",
   scope: {
+    resource: "A",
     data: new Uint8Array([1, 2, 3]),
   },
 });
@@ -100,3 +102,18 @@ console.log(message9.target, message0.target);
 console.log(message9.scope, message0.scope);
 
 console.log(message1.serialize());
+
+const worker = new Worker();
+worker.listen("ready", (evt) => {
+  const worker = <Worker>evt.source;
+  setInterval(() => {
+    worker.ping();
+  }, 10000);
+  worker.send(worker.uid, new Uint8Array([1, 2, 3]));
+});
+
+worker.listen("message", (evt) => {
+  setTimeout(() => {
+    worker.send(worker.uid, new Uint8Array([1, 2, 3]));
+  }, 5000);
+});

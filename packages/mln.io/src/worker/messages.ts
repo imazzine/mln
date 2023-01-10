@@ -2,7 +2,7 @@
  * @author Artem Lytvynov
  * @copyright Artem Lytvynov
  * @license Apache-2.0
- * @fileoverview Network worker message types definition.
+ * @fileoverview Network worker messages types definition.
  */
 
 import { parse, stringify } from "uuid";
@@ -17,7 +17,7 @@ import {
   Stream,
   Unstream,
   Content,
-} from "./.fbs/index_generated";
+} from "../.fbs/index_generated";
 
 export type Options =
   | Uint8Array
@@ -30,7 +30,7 @@ export type Options =
         | null
         | { resources: string[] }
         | { worker: string; resource: string; rating: number }
-        | { data: Uint8Array };
+        | { resource: string; data: Uint8Array };
     };
 
 export class WorkerMessage {
@@ -66,7 +66,7 @@ export class WorkerMessage {
     | null
     | { resources: string[] }
     | { worker: string; resource: string; rating: number }
-    | { data: Uint8Array } {
+    | { resource: string; data: Uint8Array } {
     if (this.type === Type.Sync) {
       const resources: string[] = [];
       const sync: Sync = <Sync>(
@@ -93,7 +93,10 @@ export class WorkerMessage {
       const content: Content = <Content>(
         (<unknown>this._message.scope(new Content()))
       );
-      return { data: <Uint8Array>content.dataArray() };
+      return {
+        resource: <string>content.resource(),
+        data: <Uint8Array>content.dataArray(),
+      };
     }
     return null;
   }
@@ -131,7 +134,7 @@ export class WorkerMessage {
           break;
         case Type.Content:
           offset = this._getContentOffset(
-            <{ data: Uint8Array }>options.scope,
+            <{ resource: string; data: Uint8Array }>options.scope,
           );
           break;
         default:
@@ -203,9 +206,14 @@ export class WorkerMessage {
     return Unstream.endUnstream(this._builder);
   }
 
-  private _getContentOffset(scope: { data: Uint8Array }): number {
+  private _getContentOffset(scope: {
+    resource: string;
+    data: Uint8Array;
+  }): number {
+    const resource = this._builder.createString(scope.resource);
     const data = Content.createDataVector(this._builder, scope.data);
     Content.startContent(this._builder);
+    Content.addResource(this._builder, resource);
     Content.addData(this._builder, data);
     return Content.endContent(this._builder);
   }

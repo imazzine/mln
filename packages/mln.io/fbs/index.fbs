@@ -21,6 +21,7 @@ table Stream {}
 table Unstream {}
 
 table Content {
+  resource: string;
   data: [uint8];
 }
 

@@ -17,7 +17,9 @@
   },
   "dependencies": {
     "@imazzine/mln.ts": "0.0.0-alpha.0",
-    "kafkajs": "^2.2.3"
+    "kafkajs": "^2.2.3",
+    "kafka-node": "^5.0.0",
+    "uuid": "^9.0.0"
   },
   "scripts": {
     "lint": "node ../../node_modules/.bin/eslint -c ../../.eslintrc.js --parser-options=tsconfigRootDir:'./tsconfig' 'src/**/*.ts'",

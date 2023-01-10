@@ -451,10 +451,10 @@
     #getRate(resource: string): number
     ....
     +ping(): void
-    +sync([worker, worker]): void
+    +sync(): void
     +rate(resource: string): void
     ....
-    +register(resource: string): void
+    +register(resource: string, service: Service): void
     +unregister(resource: string): void
     ....
     +connect(worker: string): void
@@ -467,17 +467,17 @@
   }
   Ready <- Worker: dispatch
 
-  class Sync {
-    +type: "sync"
+  class Pong {
+    +type: "pong"
     +scope: workers
   }
-  Sync <- Worker: .ping() -> dispatch\nwith workers
+  Pong <- Worker: .ping() -> .dispatch(Pong)
 
-  class Updated {
+  class Sync {
     +type: "updated"
     +scope: [worker, resources]
   }
-  Worker --> Updated: dispatch
+  Worker --> Sync: dispatch
 
   class Removed {
     +type: "removed"
