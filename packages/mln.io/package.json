@@ -17,25 +17,20 @@
   },
   "dependencies": {
     "@imazzine/mln.ts": "0.0.0-alpha.0",
-    "kafkajs": "^2.2.3",
-    "kafka-node": "^5.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "uWebSockets.js": "https://github.com/uNetworking/uWebSockets.js/archive/refs/tags/v20.20.0.tar.gz"
   },
   "scripts": {
     "lint": "node ../../node_modules/.bin/eslint -c ../../.eslintrc.js --parser-options=tsconfigRootDir:'./tsconfig' 'src/**/*.ts'",
     "docs": "../../node_modules/.bin/typedoc ./src/index.ts --tsconfig ./tsconfig/cjs.json --out ./docs --includes ./",
-    "compile_fbs": "flatc --ts -o ./src/.fbs -I ./fbs ./fbs/index.fbs",
+    "compile_fbs": "flatc --ts --ts-flat-files -o ./src/.fbs -I ./src/schemas/fbs ./src/schemas/fbs/*.fbs",
     "compile_cjs": "tsc -b ./tsconfig/cjs.json",
     "compile_esm": "tsc -b ./tsconfig/esm.json",
     "compile_dts": "tsc -b ./tsconfig/dts.json",
     "compile_tst": "tsc -b ./tsconfig/tst.json",
     "compile_all": "npm run compile_cjs && npm run compile_esm && npm run compile_dts",
     "test": "../../node_modules/.bin/jest --config ../../.jestrc.js --roots ./packages/mln.io/tst --coverageDirectory ./packages/mln.io/coverage",
-    "build": "npm run lint && npm run compile_tst && npm run test -- --coverage && npm run docs && npm run compile_all",
-    "server": "clear && cd ./container && ./server.sh",
-    "io": "npm run compile_cjs && clear && export KAFKAJS_NO_PARTITIONER_WARNING=1 && node ./bin/io.js",
-    "worker": "npm run compile_cjs && clear && export KAFKAJS_NO_PARTITIONER_WARNING=1 && node ./bin/worker.js",
-    "client": "npm run compile_cjs && clear && export KAFKAJS_NO_PARTITIONER_WARNING=1 && node ./bin/client.js"
+    "build": "npm run lint && npm run compile_tst && npm run test -- --coverage && npm run docs && npm run compile_all"
   },
   "types": "dts/index.d.ts",
   "module": "esm/index.js",

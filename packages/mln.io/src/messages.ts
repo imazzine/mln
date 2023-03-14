@@ -17,7 +17,7 @@ import {
   Stream,
   Unstream,
   Content,
-} from "../.fbs/index_generated";
+} from "./.fbs/index_generated";
 
 export type Options =
   | Uint8Array
