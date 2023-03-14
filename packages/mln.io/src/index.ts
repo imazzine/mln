@@ -106,14 +106,15 @@ console.log(message1.serialize());
 const worker = new Worker();
 worker.listen("ready", (evt) => {
   const worker = <Worker>evt.source;
+  worker.ping();
   setInterval(() => {
     worker.ping();
-  }, 10000);
-  worker.send(worker.uid, new Uint8Array([1, 2, 3]));
+    // worker.send(worker.uid, new Uint8Array([1, 2, 3]));
+  }, 2000);
 });
 
-worker.listen("message", (evt) => {
-  setTimeout(() => {
-    worker.send(worker.uid, new Uint8Array([1, 2, 3]));
-  }, 5000);
-});
+// worker.listen("message", (evt) => {
+//   setTimeout(() => {
+//     worker.send(worker.uid, new Uint8Array([1, 2, 3]));
+//   }, 5000);
+// });

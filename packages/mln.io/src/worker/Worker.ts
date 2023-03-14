@@ -5,7 +5,7 @@
  * @fileoverview Worker types definition.
  */
 
-import * as kafka from "kafka-node";
+import * as kafka from "kafkajs";
 import { Node } from "@imazzine/mln.ts";
 import {
   _client,
@@ -17,25 +17,13 @@ import {
   _streams,
 } from "../symbols";
 
-type Admin = {
-  listTopics: (
-    cb: (err: unknown, res: { [key: string]: string }) => void,
-  ) => void;
-  createTopics: (
-    topics: {
-      topic: string;
-      partitions: number;
-      replicationFactor: number;
-    }[],
-    cb: (error: unknown, result: unknown[]) => void,
-  ) => void;
-  on: (msg: string, cb: (...args: unknown[]) => void) => void;
-};
-
 export class Worker extends Node {
-  private [_admin]: Admin;
+  private [_client]: kafka.Kafka;
+
+  private [_admin]: kafka.Admin;
   private [_producer]: null | kafka.Producer = null;
   private [_consumer]: null | kafka.Consumer = null;
+
   private [_resources]: Map<string, string[]> = new Map();
   private [_workers]: Map<string, string[]> = new Map();
   private [_streams]: Map<string, kafka.Producer> = new Map();
@@ -44,123 +32,156 @@ export class Worker extends Node {
     super();
 
     // client
-    const _client_ = new kafka.KafkaClient({
-      kafkaHost: "127.0.0.1:9092",
+    const logger = this.logger;
+    this[_client] = new kafka.Kafka({
+      clientId: "mln.io/io",
+      brokers: ["127.0.0.1:9092"],
+      logLevel: kafka.logLevel.WARN,
+      logCreator: () => {
+        return (message) => {
+          switch (message.level) {
+            case kafka.logLevel.ERROR:
+              logger.error(
+                `Kafka error: ${JSON.stringify(
+                  message,
+                  undefined,
+                  2,
+                )}`,
+              );
+              break;
+            case kafka.logLevel.WARN:
+              logger.warn(
+                `Kafka warn: ${JSON.stringify(
+                  message,
+                  undefined,
+                  2,
+                )}`,
+              );
+              break;
+            case kafka.logLevel.DEBUG:
+              logger.debug(
+                `Kafka debug: ${JSON.stringify(
+                  message,
+                  undefined,
+                  2,
+                )}`,
+              );
+              break;
+            case kafka.logLevel.INFO:
+              logger.info(
+                `Kafka info: ${JSON.stringify(
+                  message,
+                  undefined,
+                  2,
+                )}`,
+              );
+              break;
+            case kafka.logLevel.NOTHING:
+              logger.trace(
+                `Kafka trace: ${JSON.stringify(
+                  message,
+                  undefined,
+                  2,
+                )}`,
+              );
+              break;
+          }
+        };
+      },
     });
 
     // admin
-    //
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // eslint-disable-next-line max-len
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-    this[_admin] = new kafka.Admin(_client_);
-    this[_admin].on("ready", () => {
-      this[_admin].createTopics(
-        [
-          {
-            topic: this.uid,
-            partitions: 1,
-            replicationFactor: 1,
-          },
-        ],
-        (error, result) => {
-          if (!error && result.length === 0) {
+    this[_admin] = this[_client].admin();
+    this[_admin].connect().then(() => {
+      return this[_admin]
+        .createTopics({
+          waitForLeaders: true,
+          timeout: 10 * 1000,
+          topics: [
+            {
+              topic: this.uid,
+              numPartitions: 1,
+              replicationFactor: 1,
+            },
+          ],
+        })
+        .then((res: boolean) => {
+          if (!res) {
+            this.logger.error(
+              `Worker's topic was not created: ${this.uid}`,
+            );
+          } else {
             this.logger.trace(
               `Worker's inbound queue created: ${this.uid}.`,
             );
-
-            // producer
-            const _client__ = new kafka.KafkaClient({
-              kafkaHost: "127.0.0.1:9092",
+            this[_consumer] = this[_client].consumer({
+              groupId: this.uid,
+              sessionTimeout: 30000,
+              rebalanceTimeout: 60000,
+              heartbeatInterval: 3000,
+              allowAutoTopicCreation: false,
+              retry: { retries: 10 },
+              readUncommitted: false,
             });
-            this[_producer] = new kafka.Producer(_client__, {
-              // requireAcks: 1,
-              // ackTimeoutMs: 100,
-              // partitionerType: 0,
-            });
-            this[_producer].on("ready", () => {
-              this.logger.trace(
-                `Worker's producer ready: ${this.uid}`,
-              );
-
-              // consumer
-              const _client___ = new kafka.KafkaClient({
-                kafkaHost: "127.0.0.1:9092",
-              });
-              this[_consumer] = new kafka.Consumer(
-                _client___,
-                [
-                  {
+            this[_producer] = this[_client].producer();
+            Promise.all([
+              this[_consumer].connect(),
+              this[_producer].connect(),
+            ]).then(() => {
+              this[_consumer] &&
+                this[_consumer]
+                  .subscribe({
                     topic: this.uid,
-                    // partition: 0,
-                    // offset: 0,
-                  },
-                ],
-                {
-                  groupId: this.uid,
-                  autoCommit: true,
-                  // autoCommitIntervalMs: 100,
-                  // fetchMaxWaitMs: 100,
-                  // fetchMinBytes: 1,
-                  // fetchMaxBytes: 1024 * 1024,
-                  // fromOffset: true,
-                  // encoding: "buffer", // | "utf8"
-                  // keyEncoding: "buffer", // | "utf8"
-                },
-              );
-              this[_consumer].on(
-                "message",
-                (message: kafka.Message) => {
-                  this.dispatch("message", {
-                    topic: message.topic,
-                    value: message.value,
-                  });
-                },
-              );
-              this[_consumer].on("error", (error) => {
-                this.logger.error(error);
-              });
-              this[_consumer].on("offsetOutOfRange", (error) => {
-                this.logger.error(error);
-              });
-              this.dispatch("ready");
-            });
-
-            this[_producer].on("error", (error) => {
-              this.logger.error(error);
-            });
+                    fromBeginning: true,
+                  })
+                  .then(() => {
+                    this[_consumer] &&
+                      this[_consumer]
+                        .run({
+                          autoCommit: true,
+                          // eslint-disable-next-line max-len
+                          // eslint-disable-next-line @typescript-eslint/require-await
+                          eachMessage: async ({ message }) => {
+                            this.dispatch("message", message);
+                          },
+                        })
+                        .then(() => {
+                          this.dispatch("ready");
+                        }).catch;
+                  }).catch;
+            }).catch;
           }
-        },
-      );
-    });
-    this[_admin].on("error", (error) => {
-      this.logger.error(error);
-    });
+        }).catch;
+    }).catch;
   }
 
   public ping(): void {
-    this[_admin].listTopics((err, res) => {
-      this.dispatch("pong", Object.values(res));
-    });
+    this[_admin]
+      .listGroups()
+      .then((res: { groups: kafka.GroupOverview[] }) => {
+        this.dispatch(
+          "pong",
+          JSON.stringify(
+            res.groups.map((el) => el.groupId),
+            undefined,
+            2,
+          ),
+        );
+      }).catch;
   }
 
   public send(worker: string, data: Uint8Array): void {
     this[_producer] &&
-      this[_producer].send(
-        [
+      this[_producer].send({
+        topic: worker,
+        messages: [
           {
-            topic: worker,
-            // string[] | Array<KeyedMessage> | string | KeyedMessage
-            messages: data,
-            key: this.uid,
-            // partition?: number;
-            // attributes?: number;
+            value: "test message",
           },
-        ],
-        (error: unknown, data: unknown) => {
-          //
-        },
-      );
+        ], //   Buffer | string | null
+        // acks: number
+        // timeout?: number
+        // compression?: CompressionTypes
+      });
   }
 }
