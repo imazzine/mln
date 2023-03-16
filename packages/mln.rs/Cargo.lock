@@ -15,6 +15,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
+name = "fns"
+version = "0.0.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f9d318f82a68feac152dab48e8a6f1eb665a915ea6a0c76e4ad5ed137f80c368"
+dependencies = [
+ "log",
+]
+
+[[package]]
 name = "getrandom"
 version = "0.2.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -55,6 +64,7 @@ dependencies = [
 name = "mln"
 version = "0.1.0"
 dependencies = [
+ "fns",
  "uuid",
 ]
 

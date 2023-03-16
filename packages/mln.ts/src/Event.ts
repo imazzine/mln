@@ -30,7 +30,7 @@ import { Listenable } from "./Listenable";
  *
  * Events expect internal `EventBinder` object to be passed to the
  * constructor function. You should not try to instantiate this object
- * manually. Use {@link Listenable.dispatch | `Listenable#dispatch`}
+ * manually. Use {@link Listenable#dispatch | `Listenable#dispatch`}
  * to dispatch an event.
  */
 export class Event<T> {
