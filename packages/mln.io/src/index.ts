@@ -6,3 +6,7 @@
  *
  * [[include:README.md]]
  */
+
+import { Gateway } from "./Gateway";
+
+const gw = new Gateway();

@@ -28,24 +28,34 @@
   external_tcp_ip -- network
   internal_tcp_ip -- network 
 
-  node "Router container" as router_container {
-    interface "tcp/ip" as router_tcp_ip
+  node "Gatway container" as gateway_container {
+    interface "tcp/ip" as gateway_tcp_ip
 
-    node "Router process (V8 support)" as router_process {
-      interface "ws+http" as router_websocket
+    node "Gatway process (V8 support)" as gateway_process {
+      interface "ws+http" as gateway_websocket
 
-      node "Main thread" as router_main_thread {
-        component Router
-        component NodesList
-        component ResourcesList
-        component RoutersList
-        Router *- NodesList
-        ResourcesList -* Router
-        Router *-- RoutersList
+      node "Main thread" as gateway_main_thread {
+        component Gateway
       }
     }
-    network -- router_tcp_ip
-    router_tcp_ip )-- router_websocket
-    router_websocket )-- Router
+    network -- gateway_tcp_ip
+    gateway_tcp_ip )-- gateway_websocket
+    gateway_websocket )-- Gateway
+
+    database ResourcesList
+    database InternalNodes
+    database ExternalNodes
+    Gateway *-- ResourcesList
+    Gateway *-- InternalNodes
+    Gateway *-- ExternalNodes
   }
+@enduml
+
+@startuml internal_register
+
+  title Internal node registration
+
+  InternalNode -> Gateway: HTTP(S) GET token.mln.io
+  Gateway -> Gateway: parsing token
+
 @enduml
