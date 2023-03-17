@@ -9,4 +9,4 @@
 
 import { Gateway } from "./Gateway";
 
-const gw = new Gateway();
+new Gateway();
