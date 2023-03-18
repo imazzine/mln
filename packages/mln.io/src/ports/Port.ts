@@ -32,7 +32,7 @@ export class Port extends Node {
   }
 
   /**
-   * Construct `Port` instance.
+   * Class constructor.
    */
   public constructor(opts?: PortOpts) {
     super();

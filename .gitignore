@@ -2,6 +2,7 @@
 /packages/**/coverage
 /packages/**/docs
 /packages/**/build
+/packages/**/tenants
 /packages/**/bin
 /packages/**/cjs
 /packages/**/dts
