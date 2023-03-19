@@ -13,7 +13,7 @@ export class Gateway extends Node {
     auth.insert(external);
 
     external.start().catch((reason) => {
-      console.error(reason);
+      this.logger.error(reason);
     });
   }
 }

@@ -6,10 +6,17 @@ import {
 import { getUid } from "@imazzine/mln.ts";
 import { Port } from "./Port";
 
-const SESSION_REQUEST_TIMEOUT = process.env
-  .MLN_SESSION_REQUEST_TIMEOUT
-  ? parseInt(process.env.MLN_SESSION_REQUEST_TIMEOUT)
+const SES_REQ_TIMEOUT = process.env.MLN_SES_REQ_TIMEOUT
+  ? parseInt(process.env.MLN_SES_REQ_TIMEOUT)
   : 1000;
+
+const PROTOCOL = process.env.MLN_PROTOCOL
+  ? process.env.MLN_PROTOCOL
+  : "mln.io";
+
+const VERSION = process.env.MLN_VERSION
+  ? process.env.MLN_VERSION
+  : "0.0.0";
 
 /**
  * The class that provides logic to handle external TCP traffic.
@@ -45,96 +52,71 @@ export class External extends Port {
     response: HttpResponse,
     request: HttpRequest,
   ): void {
-    const tenant = request.getParameter(0);
-    this.readPostedData(
-      response,
-      (data: Buffer) => {
-        const uid = getUid();
-        const timeout = setTimeout(() => {
-          this._sessionRequests.delete(uid);
-          response
-            .writeStatus("408 Request Timeout")
-            .writeHeader("mln.io", "1.0.0")
-            .end();
-        }, SESSION_REQUEST_TIMEOUT);
-        const resolve = (token: string) => {
-          clearTimeout(timeout);
-          this._sessionRequests.delete(uid);
-          response
-            .writeStatus("200 OK")
-            .writeHeader("mln.io", "1.0.0")
-            .end(token);
-        };
-        const reject = (reason: string) => {
-          clearTimeout(timeout);
-          this._sessionRequests.delete(uid);
-          response
-            .writeStatus("403 Forbidden")
-            .writeHeader("mln.io", "1.0.0")
-            .end(reason);
-        };
-        this._sessionRequests.set(uid, {
-          resolve,
-          reject,
-        });
-        this.dispatch("session::request", {
-          uid,
-          tenant,
-          data,
-        });
-      },
-      () => {
-        const msg =
-          "Request was prematurely aborted or invalid or missing.";
-        this.logger.error(msg);
+    this.sessionRequestWorkflow(response, request).catch(
+      (reason: unknown) => {
+        let message: string;
+        if (reason instanceof Error) {
+          message = reason.message;
+        } else if (typeof reason === "string") {
+          message = reason;
+        } else {
+          try {
+            message = JSON.stringify(reason);
+          } catch (err) {
+            message = "Unknown error.";
+          }
+        }
         response
-          .writeStatus("400 Bad Request")
-          .writeHeader("mln.io", "1.0.0")
-          .end(msg);
+          .writeStatus("500 Internal Server Error")
+          .writeHeader(PROTOCOL, VERSION)
+          .end(message);
       },
     );
   }
 
   /**
-   * Reads data from the POST query body.
+   * Executes session request workflow.
    */
-  private readPostedData(
+  private async sessionRequestWorkflow(
     response: HttpResponse,
-    callback: (data: Buffer) => void,
-    error: () => void,
-  ): void {
-    let buffer = Buffer.from([]);
-    response.onAborted(error);
-    response.onData((chunk, last) => {
-      buffer = Buffer.concat([buffer, Buffer.from(chunk)]);
-      if (last) callback(buffer);
+    request: HttpRequest,
+  ): Promise<void> {
+    const uid = getUid();
+    const tenant = request.getParameter(0);
+    const bearer = this.getBearer(request);
+    const data = await this.readJSON(response);
+    const timeout = setTimeout(() => {
+      this._sessionRequests.delete(uid);
+      response
+        .writeStatus("408 Request Timeout")
+        .writeHeader(PROTOCOL, VERSION)
+        .end();
+    }, SES_REQ_TIMEOUT);
+    const resolve = (token: string) => {
+      clearTimeout(timeout);
+      this._sessionRequests.delete(uid);
+      response
+        .writeStatus("200 OK")
+        .writeHeader(PROTOCOL, VERSION)
+        .end(token);
+    };
+    const reject = (reason: string) => {
+      clearTimeout(timeout);
+      this._sessionRequests.delete(uid);
+      response
+        .writeStatus("403 Forbidden")
+        .writeHeader(PROTOCOL, VERSION)
+        .end(reason);
+    };
+    this._sessionRequests.set(uid, {
+      resolve,
+      reject,
     });
-  }
-
-  private readPostedJson(
-    response: HttpResponse,
-    callback: (data: unknown) => void,
-    error: () => void,
-  ): void {
-    let buffer = Buffer.from([]);
-    response.onAborted(error);
-    response.onData((chunk, last) => {
-      buffer = Buffer.concat([buffer, Buffer.from(chunk)]);
-      if (last) {
-        const str: string = buffer.toString();
-        try {
-          const obj: unknown = JSON.parse(str);
-          callback(obj);
-        } catch (err: unknown) {
-          const msg =
-            "Posted data is not a valid JSON string: " + str;
-          this.logger.error(msg);
-          response
-            .writeStatus("400 Bad Request")
-            .writeHeader("mln.io", "1.0.0")
-            .end(msg);
-        }
-      }
+    this.dispatch("session::request", {
+      uid,
+      tenant,
+      bearer,
+      data,
     });
   }
 

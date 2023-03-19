@@ -13,6 +13,14 @@ type PortOpts = {
   passphrase?: string;
 };
 
+const PROTOCOL = process.env.MLN_PROTOCOL
+  ? process.env.MLN_PROTOCOL
+  : "mln.io";
+
+const VERSION = process.env.MLN_VERSION
+  ? process.env.MLN_VERSION
+  : "0.0.0";
+
 /**
  * The class that provides basic functionality to convert TCP traffic
  * to an `mln`-object events.
@@ -48,34 +56,6 @@ export class Port extends Node {
         cert_file_name: opts?.cert_file,
         passphrase: opts?.passphrase,
       });
-  }
-
-  /**
-   * Starts listening for incoming TCP traffic.
-   */
-  public async start(): Promise<number> {
-    return new Promise((resolve, reject) => {
-      if (this[_uws] && this[_port]) {
-        this.route(this[_uws]);
-        this[_uws].listen(this[_port], (socket) => {
-          if (!socket) {
-            this.logger.fatal(
-              `The Gateway#${this.uid} is failed to listen ` +
-                `port ${<number>this[_port]}`,
-            );
-            this.destructor();
-            reject();
-          } else {
-            this[_sock] = socket;
-            this.logger.info(
-              `The Gateway#${this.uid} is listening to ` +
-                `port ${<number>this[_port]}`,
-            );
-            resolve(<number>this[_port]);
-          }
-        });
-      }
-    });
   }
 
   /**
@@ -152,5 +132,96 @@ export class Port extends Node {
     this[_uws] = null;
     this[_port] = null;
     super[destruct]();
+  }
+
+  /**
+   * Starts listening for incoming TCP traffic.
+   */
+  public async start(): Promise<number> {
+    return new Promise((resolve, reject) => {
+      if (this[_uws] && this[_port]) {
+        this.route(this[_uws]);
+        this[_uws].listen(this[_port], (socket) => {
+          if (!socket) {
+            this.logger.fatal(
+              `The Gateway#${this.uid} is failed to listen ` +
+                `port ${<number>this[_port]}`,
+            );
+            this.destructor();
+            reject();
+          } else {
+            this[_sock] = socket;
+            this.logger.info(
+              `The Gateway#${this.uid} is listening to ` +
+                `port ${<number>this[_port]}`,
+            );
+            resolve(<number>this[_port]);
+          }
+        });
+      }
+    });
+  }
+
+  /**
+   * Returns authorization bearer token from the HTTP request or an
+   * empty string if not specified.
+   */
+  public getBearer(request: uWebSockets.HttpRequest): string {
+    let bearer = "";
+    request.forEach((header, val) => {
+      if (header === "authorization") {
+        bearer = val && val.length ? val.split("Bearer ")[1] : "";
+      }
+    });
+    return bearer;
+  }
+
+  /**
+   * Reads data from the query body and retirns it as a Buffer.
+   */
+  public async readBuffer(
+    response: uWebSockets.HttpResponse,
+  ): Promise<Buffer> {
+    const promise = new Promise(
+      (
+        resolve: (data: Buffer) => void,
+        reject: (reason: unknown) => void,
+      ) => {
+        let buffer = Buffer.from([]);
+        response.onAborted(() => {
+          const msg =
+            "Request was prematurely aborted or invalid or missing.";
+          this.logger.error(msg);
+          reject(msg);
+        });
+        response.onData((chunk, last) => {
+          buffer = Buffer.concat([buffer, Buffer.from(chunk)]);
+          if (last) resolve(buffer);
+        });
+      },
+    );
+    return promise;
+  }
+
+  /**
+   * Reads data from the query body and retirns it as a JSON.
+   */
+  public async readJSON(
+    response: uWebSockets.HttpResponse,
+  ): Promise<unknown> {
+    const buf = await this.readBuffer(response);
+    const str = buf.toString();
+    let obj: unknown;
+    try {
+      obj = JSON.parse(str);
+    } catch (err) {
+      const msg = `Posted data is not a valid JSON string: ${str}.`;
+      this.logger.error(msg);
+      response
+        .writeStatus("400 Bad Request")
+        .writeHeader(PROTOCOL, VERSION)
+        .end(msg);
+    }
+    return obj;
   }
 }
