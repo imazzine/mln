@@ -1,4 +1,5 @@
 import {
+  SHARED_COMPRESSOR,
   TemplatedApp,
   HttpResponse,
   HttpRequest,
@@ -41,6 +42,59 @@ export class External extends Port {
       "/session/:tenant",
       this.sessionRequestHandler.bind(this),
     );
+    app.ws("/session/:tenant/:token", {
+      // compression: SHARED_COMPRESSOR,
+      // maxPayloadLength: 16 * 1024 * 1024,
+      // idleTimeout: 10,
+      upgrade: (res, req, context) => {
+        console.log("upgrade");
+        console.log(
+          "An Http connection wants to become WebSocket, URL: " +
+            req.getUrl() +
+            "!",
+        );
+
+        /* This immediately calls open handler, you must not use res
+        after this call */
+        res.upgrade(
+          {
+            myData:
+              /* First argument is UserData
+            (see WebSocket.getUserData()) */
+              req.getUrl(),
+          },
+          /* Spell these correctly */
+          req.getHeader("sec-websocket-key"),
+          req.getHeader("sec-websocket-protocol"),
+          req.getHeader("sec-websocket-extensions"),
+          context,
+        );
+      },
+      open: (ws) => {
+        // console.log(
+        //   `A WebSocket connected with URL: ${ws.myData}`,
+        // );
+        console.log("upgrade");
+        this.logger.info("WebSocket opened.");
+      },
+      message: (ws, message, isBinary) => {
+        /* Ok is false if backpressure was built up, wait for drain */
+        // const ok = ws.send(message, isBinary);
+        console.log("upgrade");
+        this.logger.info("WebSocket message.");
+      },
+      drain: (ws) => {
+        // console.log(
+        //   "WebSocket backpressure: " + ws.getBufferedAmount(),
+        // );
+        this.logger.info("WebSocket drained.");
+      },
+      close: (ws, code, message) => {
+        // console.log("WebSocket closed");
+        console.log("upgrade");
+        this.logger.info("WebSocket closed.");
+      },
+    });
     super.route(app);
   }
 
@@ -63,7 +117,7 @@ export class External extends Port {
           try {
             message = JSON.stringify(reason);
           } catch (err) {
-            message = "Unknown error.";
+            message = "unknown error";
           }
         }
         response

@@ -72,7 +72,7 @@ export class Auth extends Node {
           try {
             message = JSON.stringify(reason);
           } catch (err) {
-            message = "Unknown error.";
+            message = "unknown error";
           }
         }
         port.rejectSessionRequest(scope.uid, message);
@@ -103,7 +103,7 @@ export class Auth extends Node {
     const [key] = await this.getTenantKeys(tenant);
     const jwt = await jwtDecrypt(decodeURIComponent(bearer), key);
     if (jwt.payload.sub !== "session::bearer") {
-      throw new Error("Invalid Bearer.");
+      throw new Error("invalid bearer");
     }
   }
 
@@ -126,7 +126,7 @@ export class Auth extends Node {
         // at
         iat: Date.now() / 1000,
         // which can be used from
-        nbf: Date.now() / 1000,
+        nbf: Date.now() / 1000 - 1,
         // up to
         exp: (Date.now() + SES_TKN_EXP) / 1000,
       }),
@@ -179,7 +179,7 @@ export class Auth extends Node {
       (resolve: (val: Buffer) => void, reject) => {
         readFile(path, (err, data) => {
           if (err) {
-            reject("No such tenant or key file is missing");
+            reject("no such tenant or key file is missing");
           } else {
             resolve(data);
           }
