@@ -71,7 +71,7 @@ export class External extends Port {
           // console.log(
           //   `A WebSocket connected with URL: ${ws.myData}`,
           // );
-          console.log("open");
+          console.log("open", ws);
           // this.logger.info("WebSocket opened.");
         },
         message: (ws, message, isBinary) => {

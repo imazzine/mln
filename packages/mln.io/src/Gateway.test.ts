@@ -89,7 +89,7 @@ describe("Gateway", () => {
     });
   });
   describe("External Port", () => {
-    it("must process the valid session POST request", async () => {
+    it("must accept the valid session POST request", async () => {
       const response = await postRequest(
         port,
         "/session/common",
