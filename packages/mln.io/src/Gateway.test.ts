@@ -14,7 +14,6 @@ import {
   syncBufferInternal,
 } from "@imazzine/mln.ts";
 import { Gateway } from "./Gateway";
-import { resolve } from "path";
 
 class TestLogsBuffer extends LogsBuffer {
   protected async [syncBufferInternal](): Promise<void> {
