@@ -3,17 +3,19 @@ import { Auth } from "./Auth";
 import { External } from "./ports/External";
 
 export class Gateway extends Node {
+  private external: External;
+
   public constructor() {
     super();
 
     const auth = new Auth();
     this.insert(auth);
 
-    const external = new External();
-    auth.insert(external);
+    this.external = new External();
+    auth.insert(this.external);
+  }
 
-    external.start().catch((reason) => {
-      this.logger.error(reason);
-    });
+  public async start(): Promise<number> {
+    return await this.external.start();
   }
 }

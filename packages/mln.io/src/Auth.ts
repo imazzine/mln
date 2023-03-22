@@ -6,34 +6,32 @@ import {
   importPKCS8,
   CompactEncrypt,
   jwtDecrypt,
+  JWTDecryptResult,
 } from "jose";
 import { Node, Event } from "@imazzine/mln.ts";
+import { Env } from "./Env";
 import { External } from "./ports/External";
 
-const _keys = Symbol("_keys");
-
-const tenantsPath = process.env.MLN_TENANTS_PATH
-  ? process.env.MLN_TENANTS_PATH
-  : "./tenants";
-
-const SES_TKN_EXP = process.env.MLN_SES_TKN_EXP
-  ? parseInt(process.env.MLN_SES_TKN_EXP)
-  : 1000;
-
-const SES_TKN_ALG = process.env.MLN_SES_TKN_ALG
-  ? process.env.MLN_SES_TKN_ALG
-  : "RSA-OAEP-256";
-
-const SES_TKN_ENC = process.env.MLN_SES_TKN_ENC
-  ? process.env.MLN_SES_TKN_ENC
-  : "A256GCM";
-
-export type SessionRequest = {
+/**
+ * Session request event scope.
+ */
+type SessionRequest = {
   uid: string;
   tenant: string;
   bearer: string;
   data: object;
 };
+
+/**
+ * Session upgrade event scope.
+ */
+type SessionUpgrade = {
+  uid: string;
+  tenant: string;
+  token: string;
+};
+
+const _keys = Symbol("_keys");
 
 export class Auth extends Node {
   private [_keys]: Map<string, [KeyLike, KeyLike]> = new Map();
@@ -43,9 +41,15 @@ export class Auth extends Node {
    */
   public constructor() {
     super();
+
     this.listen(
       "session::request",
       this.sessionRequestListener.bind(this),
+    );
+
+    this.listen(
+      "session::upgrade",
+      this.sessionUpgradeListener.bind(this),
     );
   }
 
@@ -80,6 +84,37 @@ export class Auth extends Node {
   }
 
   /**
+   * The `session::upgrade` event listener.
+   */
+  private sessionUpgradeListener(event: Event<unknown>): void {
+    const scope = <SessionUpgrade>event.scope;
+    const port = <External>event.source;
+    this.sessionUpgradeWorkflow(scope)
+      .then((jwt) => {
+        port.resolveUpgradeRequest(
+          scope.uid,
+          jwt.payload.usr,
+          <string[]>jwt.payload.res,
+        );
+      })
+      .catch((reason: unknown) => {
+        let message: string;
+        if (reason instanceof Error) {
+          message = reason.message;
+        } else if (typeof reason === "string") {
+          message = reason;
+        } else {
+          try {
+            message = JSON.stringify(reason);
+          } catch (err) {
+            message = "unknown error";
+          }
+        }
+        port.rejectUpgradeRequest(scope.uid, message);
+      });
+  }
+
+  /**
    * Executes session request workflow and returns jwe token.
    */
   private async sessionRequestWorkflow(
@@ -94,6 +129,31 @@ export class Auth extends Node {
   }
 
   /**
+   * Executes session upgrade workflow and returns jwe token.
+   */
+  private async sessionUpgradeWorkflow(
+    scope: SessionUpgrade,
+  ): Promise<JWTDecryptResult> {
+    const [key] = await this.getTenantKeys(scope.tenant);
+    const jwt = await jwtDecrypt(
+      decodeURIComponent(scope.token),
+      key,
+    );
+    if (!jwt.payload.sub || jwt.payload.sub !== Env.SES_TKN_SUB) {
+      throw new Error(
+        "invalid token: missing or invalid `sub` claim",
+      );
+    }
+    if (!jwt.payload.usr) {
+      throw new Error("invalid token: no `usr` claim");
+    }
+    if (!jwt.payload.res) {
+      throw new Error("invalid token: no `res` claim");
+    }
+    return jwt;
+  }
+
+  /**
    * Asserts incomming session request bearer token.
    */
   private async assertSessionRequestBearer(
@@ -102,7 +162,7 @@ export class Auth extends Node {
   ): Promise<void> {
     const [key] = await this.getTenantKeys(tenant);
     const jwt = await jwtDecrypt(decodeURIComponent(bearer), key);
-    if (jwt.payload.sub !== "session::bearer") {
+    if (jwt.payload.sub !== Env.SES_REQ_SUB) {
       throw new Error("invalid bearer");
     }
   }
@@ -122,19 +182,19 @@ export class Auth extends Node {
         // current service produced token
         iss: this.uid,
         // for session initialization
-        sub: "session::access",
+        sub: Env.SES_TKN_SUB,
         // at
         iat: Date.now() / 1000,
         // which can be used from
         nbf: Date.now() / 1000 - 1,
         // up to
-        exp: (Date.now() + SES_TKN_EXP) / 1000,
+        exp: (Date.now() + Env.SES_TKN_TTL) / 1000,
       }),
       "utf8",
     );
     const ce = new CompactEncrypt(payload).setProtectedHeader({
-      alg: SES_TKN_ALG,
-      enc: SES_TKN_ENC,
+      alg: Env.SES_TKN_ALG,
+      enc: Env.SES_TKN_ENC,
     });
     const jwe = await ce.encrypt(pub);
     return jwe;
@@ -153,20 +213,28 @@ export class Auth extends Node {
     } else {
       const keyPath = resolve(
         process.cwd(),
-        tenantsPath,
-        `./${tenant}/keys`,
-        "./key",
+        Env.TENANTS_PATH,
+        `./${tenant}`,
+        Env.TENANT_KEYS_PATH,
+        `./${Env.TENANT_KEY_NAME}`,
       );
       const pubPath = resolve(
         process.cwd(),
-        tenantsPath,
-        `./${tenant}/keys`,
-        "./key.pub",
+        Env.TENANTS_PATH,
+        `./${tenant}`,
+        Env.TENANT_KEYS_PATH,
+        `./${Env.TENANT_PUB_NAME}`,
       );
       const keyFile = await this.loadFile(keyPath);
       const pubFile = await this.loadFile(pubPath);
-      const key = await importPKCS8(keyFile.toString(), "ES256");
-      const pub = await importSPKI(pubFile.toString(), "ES256");
+      const key = await importPKCS8(
+        keyFile.toString(),
+        Env.KEYS_IMPORT_ALG,
+      );
+      const pub = await importSPKI(
+        pubFile.toString(),
+        Env.KEYS_IMPORT_ALG,
+      );
       return [key, pub];
     }
   }

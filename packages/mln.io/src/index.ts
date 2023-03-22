@@ -7,8 +7,6 @@
  * [[include:README.md]]
  */
 
-import { config } from "dotenv";
 import { Gateway } from "./Gateway";
 
-config();
 new Gateway();
