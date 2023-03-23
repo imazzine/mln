@@ -206,11 +206,7 @@ export class Auth extends Node {
   private async getTenantKeys(
     tenant: string,
   ): Promise<[KeyLike, KeyLike]> {
-    if (this[_keys].has(tenant)) {
-      return Promise.resolve(
-        <[KeyLike, KeyLike]>this[_keys].get(tenant),
-      );
-    } else {
+    if (!this[_keys].has(tenant)) {
       const keyPath = resolve(
         process.cwd(),
         Env.TENANTS_PATH,
@@ -235,8 +231,9 @@ export class Auth extends Node {
         pubFile.toString(),
         Env.KEYS_IMPORT_ALG,
       );
-      return [key, pub];
+      this[_keys].set(tenant, [key, pub]);
     }
+    return <[KeyLike, KeyLike]>this[_keys].get(tenant);
   }
 
   /**

@@ -1,0 +1,24 @@
+{
+  "name": "@imazzine/mln.ws",
+  "version": "0.0.0-alpha.0",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Artem Lytvynov",
+    "email": "buntarb@gmail.com"
+  },
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:imazzine/mln.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "dependencies": {
+    "ws": "^8.13.0"
+  },
+  "types": "ws.d.ts",
+  "module": "ws.esm.js",
+  "main": "ws.cjs.js"
+}

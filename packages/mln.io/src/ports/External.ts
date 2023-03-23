@@ -68,6 +68,7 @@ export class External extends Port {
         idleTimeout: Env.EXT_IDLE_TIMEOUT,
         upgrade: this.upgradeRequestHandler.bind(this),
         open: (ws) => {
+          // processConnectedHandler
           // console.log(
           //   `A WebSocket connected with URL: ${ws.myData}`,
           // );

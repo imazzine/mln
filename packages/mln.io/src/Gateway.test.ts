@@ -5,7 +5,7 @@
  * @license Apache-2.0
  */
 
-import { WebSocket } from "ws";
+import { WebSocket } from "@imazzine/mln.ws";
 import * as http from "http";
 import { config } from "dotenv";
 import {
@@ -88,6 +88,7 @@ describe("Gateway", () => {
       }, 1000);
     });
   });
+
   describe("External Port", () => {
     it("must accept the valid session POST request", async () => {
       const response = await postRequest(
