@@ -7,6 +7,22 @@
  * [[include:README.md]]
  */
 
-import { Gateway } from "./Gateway";
+import { Env } from "./router/Env";
+import { Root } from "./router/Root";
+import {
+  setTenant,
+  setToken,
+  setUrl,
+  getProcess,
+  IProcess,
+} from "./processes/Process";
 
-new Gateway();
+export {
+  setTenant,
+  setToken,
+  setUrl,
+  getProcess,
+  IProcess,
+  Env,
+  Root,
+};

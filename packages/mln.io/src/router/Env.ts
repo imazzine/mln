@@ -1,5 +1,4 @@
 import { config } from "dotenv";
-import { DISABLED, SHARED_COMPRESSOR } from "uWebSockets.js";
 
 config();
 
@@ -127,15 +126,6 @@ export const Env = {
   EXT_PORT: process.env.MLN_EXT_PORT
     ? parseInt(process.env.MLN_EXT_PORT)
     : 8080,
-
-  /**
-   * What permessage-deflate compression to use. uWS.DISABLED,
-   * uWS.SHARED_COMPRESSOR or any of the uWS.DEDICATED_COMPRESSOR_xKB.
-   * Defaults to uWS.DISABLED.
-   */
-  EXT_COMPRESSION: process.env.MLN_EXT_COMPRESSION
-    ? parseInt(process.env.MLN_EXT_COMPRESSION)
-    : DISABLED,
 
   /**
    * Maximum length of received message. If a client tries to send you

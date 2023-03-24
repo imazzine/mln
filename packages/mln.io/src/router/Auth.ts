@@ -10,7 +10,7 @@ import {
 } from "jose";
 import { Node, Event } from "@imazzine/mln.ts";
 import { Env } from "./Env";
-import { External } from "./ports/External";
+import { External } from "../ports/External";
 
 /**
  * Session request event scope.

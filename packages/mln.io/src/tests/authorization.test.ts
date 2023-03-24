@@ -1,87 +1,32 @@
 /**
- * @fileoverview The Gateway tests.
+ * @fileoverview Authorization tests.
  * @author Artem Lytvynov
  * @copyright Artem Lytvynov
  * @license Apache-2.0
  */
 
-import { WebSocket } from "@imazzine/mln.ws";
-import * as http from "http";
 import { config } from "dotenv";
-import {
-  setLogsBuffer,
-  LogsBuffer,
-  syncBufferInternal,
-} from "@imazzine/mln.ts";
-import { Gateway } from "./Gateway";
-
-class TestLogsBuffer extends LogsBuffer {
-  protected async [syncBufferInternal](): Promise<void> {
-    return Promise.resolve();
-  }
-}
-setLogsBuffer(new TestLogsBuffer());
+import { WebSocket } from "@imazzine/mln.ws";
+import { setLogsBuffer } from "@imazzine/mln.ts";
+import { bearer, TestBuffer } from "./_mocks";
+import { postRequest, readData } from "./_helpers";
+import { Env, Root } from "../index";
 
 config();
+setLogsBuffer(new TestBuffer());
 
-const bearer =
-  // eslint-disable-next-line max-len
-  "eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0.blOll9vFK9PgYGoeobYIFPPKXTj1Ch8_qt4Tf1ScDUCLC4CU3dK38LidkBP7dWkrAZxiHMh461ED5UGWRTTGnDSRzw85QAhNsqEClMOrs1GB4aYFOg76WivFQ4l6bPQGZQ3hTT-TwTnfyG3mZFsc4Alb0YXNjDO9kue5kUtbFJx6HDdfraVEHeLjahw_DOFwGxqve_pNgTzbRwWW7p4591QtLXJg04nYnlHybruJALnQTUYj7CycDL3PlnOrzHlybNQXhTuCNMxqRzvRvjzOTU371E0N7qBA2uG8KR3caI5jy5aRphE-Tq9KhAueWQNLb11oD-gnbmyU5Z9MN6d1-Sc30AEJ1OX5JvBG1zdGVSvwiTIf9ic4RDrIFuoYM_6Ad1K4R6ct2UTnqEKSOXqOwfSYO25Z-tMJEN_7-mXbX9xrDx8V8y9YhXtFntzV_T9MVLNHqsMxjie-Z_ekdV5lHMSUq4jyuJUo1ET54hMUGvVQ2o9H5g1gmgeE20A3CLW7.sMgQzoXYBEE8l9Fv.H0Eln1LsmsK8m2cJudFgIpuhMTAYe-fP6Jb7IuxswxBp-f0JD4iu4DXeeDW4oi7LF1eOhn3eSBpiBSvqeRhZmQd_zlTzXbHtpiymPnhzyI60JawcEijiKYLl8w.CjUmHxzw5yv7srzPqODdPA";
-
-async function postRequest(
-  port: number,
-  path: string,
-  tkn: string,
-  data: unknown,
-) {
-  return await new Promise(
-    (resolve: (res: http.IncomingMessage) => void, reject) => {
-      const options = {
-        hostname: "localhost",
-        port: port,
-        path: path,
-        method: "POST",
-        headers: {
-          authorization: `Bearer ${tkn}`,
-          "Content-Length": Buffer.byteLength(JSON.stringify(data)),
-        },
-      };
-      const req = http.request(options, (res) => {
-        resolve(res);
-      });
-      req.on("error", (e) => {
-        reject(`Problem with request: ${e.message}.`);
-      });
-      req.write(JSON.stringify(data));
-      req.end();
-    },
-  );
-}
-
-async function readData(res: http.IncomingMessage): Promise<Buffer> {
-  return new Promise((resolve) => {
-    let buffer = Buffer.from([]);
-    res.on("data", (chunk: Buffer) => {
-      buffer = Buffer.concat([buffer, Buffer.from(chunk)]);
-    });
-    res.on("end", () => {
-      resolve(buffer);
-    });
-  });
-}
-
-describe("Gateway", () => {
-  let gateway: Gateway;
+describe("Authorization", () => {
+  let router: Root;
   let token: string;
   let port: number;
 
   beforeAll(async () => {
-    gateway = new Gateway();
-    port = await gateway.start();
+    router = new Root();
+    port = await router.start();
   });
 
   afterAll(async () => {
-    gateway.destructor();
+    router.destructor();
     await new Promise((resolve) => {
       setTimeout(() => {
         resolve(undefined);
@@ -90,6 +35,11 @@ describe("Gateway", () => {
   });
 
   describe("External Port", () => {
+    it("must listen for a valid TCP port", () => {
+      expect(port).toEqual(router.external.tcp);
+      expect(router.external.tcp).toEqual(Env.EXT_PORT);
+    });
+
     it("must accept the valid session POST request", async () => {
       const response = await postRequest(
         port,

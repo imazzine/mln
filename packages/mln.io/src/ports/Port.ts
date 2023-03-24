@@ -1,6 +1,6 @@
 import { destruct, Node } from "@imazzine/mln.ts";
 import * as uWebSockets from "uWebSockets.js";
-import { Env } from "../Env";
+import { Env } from "../router/Env";
 
 const _uws = Symbol("_uws");
 const _port = Symbol("_port");
@@ -31,7 +31,7 @@ export class Port extends Node {
   /**
    * TCP port that is listened by the instance.
    */
-  public get port(): null | number {
+  public get tcp(): null | number {
     return this[_port];
   }
 

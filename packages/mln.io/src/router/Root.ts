@@ -1,9 +1,9 @@
 import { Node } from "@imazzine/mln.ts";
 import { Auth } from "./Auth";
-import { External } from "./ports/External";
+import { External } from "../ports/External";
 
-export class Gateway extends Node {
-  private external: External;
+export class Root extends Node {
+  public external: External;
 
   public constructor() {
     super();

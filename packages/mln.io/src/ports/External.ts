@@ -1,11 +1,12 @@
 import {
+  DISABLED,
   TemplatedApp,
   HttpResponse,
   HttpRequest,
   us_socket_context_t,
 } from "uWebSockets.js";
 import { getUid } from "@imazzine/mln.ts";
-import { Env } from "../Env";
+import { Env } from "../router/Env";
 import { Port } from "./Port";
 
 /**
@@ -63,7 +64,7 @@ export class External extends Port {
     app
       .post("/session/:tenant", this.sessionRequestHandler.bind(this))
       .ws("/session/:tenant/:token", {
-        compression: Env.EXT_COMPRESSION,
+        compression: DISABLED,
         maxPayloadLength: Env.EXT_PAYLOAD_LENGTH,
         idleTimeout: Env.EXT_IDLE_TIMEOUT,
         upgrade: this.upgradeRequestHandler.bind(this),
