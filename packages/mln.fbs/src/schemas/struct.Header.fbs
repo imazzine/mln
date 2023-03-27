@@ -1,0 +1,18 @@
+/**
+ * @author Artem Lytvynov
+ * @copyright Artem Lytvynov
+ * @license Apache2.0
+ */
+
+include "./enum.Type.fbs";
+include "./enum.Method.fbs";
+include "./struct.Uid.fbs";
+
+namespace struct;
+
+/// Message header struct.
+struct Header {
+  uid: struct.Uid;
+  type: enum.Type;
+  method: enum.Method;
+}

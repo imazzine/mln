@@ -1,0 +1,17 @@
+/**
+ * @author Artem Lytvynov
+ * @copyright Artem Lytvynov
+ * @license Apache2.0
+ */
+
+include "./struct.Uid.fbs";
+
+namespace union;
+
+/// Binary data type.
+table Binary {
+  data: [ubyte];
+}
+
+/// Message body type.
+union Body { struct.Uid, Binary }

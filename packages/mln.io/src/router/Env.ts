@@ -72,7 +72,7 @@ export const Env = {
    */
   SES_REQ_TIMEOUT: process.env.MLN_SES_REQ_TIMEOUT
     ? parseInt(process.env.MLN_SES_REQ_TIMEOUT)
-    : 1000,
+    : 2000,
 
   /**
    * Session request "sub" claim value.

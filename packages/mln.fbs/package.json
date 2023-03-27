@@ -15,7 +15,10 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@imazzine/mln.ts": "0.0.0-alpha.0",
+    "uuid": "^9.0.0"
+  },
   "scripts": {
     "lint": "node ../../node_modules/.bin/eslint -c ../../.eslintrc.js --parser-options=tsconfigRootDir:'./tsconfig' 'src/**/*.ts'",
     "docs": "../../node_modules/.bin/typedoc ./src/index.ts --tsconfig ./tsconfig/cjs.json --out ./docs --includes ./",

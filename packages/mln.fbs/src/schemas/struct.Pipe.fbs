@@ -1,0 +1,22 @@
+/**
+ * @author Artem Lytvynov
+ * @copyright Artem Lytvynov
+ * @license Apache2.0
+ */
+
+include "./struct.Uid.fbs";
+
+namespace struct;
+
+/// Node path type.
+struct Path {
+  node: struct.Uid;
+  process: struct.Uid;
+  router: struct.Uid;
+}
+
+/// Node-to-Node message path type.
+struct Pipe {
+  source: Path;
+  target: Path;
+}

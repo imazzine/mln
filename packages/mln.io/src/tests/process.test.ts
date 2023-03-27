@@ -6,7 +6,11 @@
  */
 
 import { config } from "dotenv";
-import { setLogsBuffer } from "@imazzine/mln.ts";
+import {
+  setLogsBuffer,
+  setLogLevel,
+  LogLevel,
+} from "@imazzine/mln.ts";
 import {
   Root,
   setTenant,
@@ -19,6 +23,7 @@ import { bearer, TestBuffer } from "./_mocks";
 import { postRequest, readData } from "./_helpers";
 
 config();
+// setLogLevel(LogLevel.ERROR);
 setLogsBuffer(new TestBuffer());
 
 describe("Process", () => {
@@ -42,13 +47,8 @@ describe("Process", () => {
     token = (await readData(response)).toString();
   });
 
-  afterAll(async () => {
+  afterAll(() => {
     router.destructor();
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(undefined);
-      }, 1000);
-    });
   });
 
   describe("connection", () => {
@@ -59,6 +59,10 @@ describe("Process", () => {
       process = getProcess();
       return new Promise((resolve, reject) => {
         process.listen("process::opened", (event) => {
+          // resolve(event);
+        });
+        process.listen("process::connected", (event) => {
+          process.destructor();
           resolve(event);
         });
         process.listen("process::error", (event) => {

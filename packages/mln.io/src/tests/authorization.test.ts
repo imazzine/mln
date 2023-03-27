@@ -7,12 +7,17 @@
 
 import { config } from "dotenv";
 import { WebSocket } from "@imazzine/mln.ws";
-import { setLogsBuffer } from "@imazzine/mln.ts";
+import {
+  setLogsBuffer,
+  setLogLevel,
+  LogLevel,
+} from "@imazzine/mln.ts";
 import { bearer, TestBuffer } from "./_mocks";
 import { postRequest, readData } from "./_helpers";
 import { Env, Root } from "../index";
 
 config();
+// setLogLevel(LogLevel.ERROR);
 setLogsBuffer(new TestBuffer());
 
 describe("Authorization", () => {
@@ -25,13 +30,8 @@ describe("Authorization", () => {
     port = await router.start();
   });
 
-  afterAll(async () => {
+  afterAll(() => {
     router.destructor();
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(undefined);
-      }, 1000);
-    });
   });
 
   describe("External Port", () => {

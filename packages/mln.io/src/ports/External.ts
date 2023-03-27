@@ -4,8 +4,10 @@ import {
   HttpResponse,
   HttpRequest,
   us_socket_context_t,
+  WebSocket,
 } from "uWebSockets.js";
 import { getUid } from "@imazzine/mln.ts";
+import { Message, Type, Method } from "@imazzine/mln.fbs";
 import { Env } from "../router/Env";
 import { Port } from "./Port";
 
@@ -47,6 +49,20 @@ export class External extends Port {
   > = new Map();
 
   /**
+   * Handshake subscribers map.
+   */
+  private _handshakeSubscribers: Map<
+    WebSocket<unknown>,
+    (process: string) => void
+  > = new Map();
+
+  /**
+   * Connected processes map.
+   */
+  private _localProcesses: Map<WebSocket<unknown>, { uid: string }> =
+    new Map();
+
+  /**
    * Class constructor.
    */
   public constructor(opts?: ExtOpts) {
@@ -68,21 +84,8 @@ export class External extends Port {
         maxPayloadLength: Env.EXT_PAYLOAD_LENGTH,
         idleTimeout: Env.EXT_IDLE_TIMEOUT,
         upgrade: this.upgradeRequestHandler.bind(this),
-        open: (ws) => {
-          // processConnectedHandler
-          // console.log(
-          //   `A WebSocket connected with URL: ${ws.myData}`,
-          // );
-          console.log("open", ws);
-          // this.logger.info("WebSocket opened.");
-        },
-        message: (ws, message, isBinary) => {
-          /* Ok is false if backpressure was built up, wait for
-          drain */
-          // const ok = ws.send(message, isBinary);
-          console.log("message");
-          // this.logger.info("WebSocket message.");
-        },
+        open: this.openHandler.bind(this),
+        message: this.messageHandler.bind(this),
         drain: (ws) => {
           // console.log(
           //   "WebSocket backpressure: " + ws.getBufferedAmount(),
@@ -95,6 +98,9 @@ export class External extends Port {
           console.log("close");
           // this.logger.info("WebSocket closed.");
         },
+
+        // ok is false if backpressure was built up, wait for drain.
+        // const ok = ws.send(message, isBinary);
       });
     super.route(app);
   }
@@ -189,6 +195,45 @@ export class External extends Port {
   }
 
   /**
+   * WebSocket "open" event handler.
+   */
+  private openHandler(ws: WebSocket<unknown>) {
+    const timeout = setTimeout(() => {
+      this._handshakeSubscribers.delete(ws);
+      ws.close();
+    }, 1000);
+
+    const resolve = (process: string) => {
+      clearTimeout(timeout);
+      this._handshakeSubscribers.delete(ws);
+      this._localProcesses.set(ws, { uid: process });
+    };
+
+    this._handshakeSubscribers.set(ws, resolve);
+  }
+
+  /**
+   * WebSocket "message" event handler.
+   */
+  private messageHandler(
+    ws: WebSocket<unknown>,
+    message: ArrayBuffer,
+    binary: boolean,
+  ): void {
+    const msg = new Message(Buffer.from(message));
+
+    switch (msg.type) {
+      case Type.Handshake:
+        this.handshakeWorkflow(ws, msg).catch((reason) => {
+          //
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
+  /**
    * Executes session request workflow.
    */
   private async sessionRequestWorkflow(
@@ -241,6 +286,31 @@ export class External extends Port {
       bearer,
       data,
     });
+  }
+
+  /**
+   * Process-to-router handshake workflow.
+   */
+  private async handshakeWorkflow(
+    ws: WebSocket<unknown>,
+    message: Message,
+  ): Promise<void> {
+    const uid = <string>message.body;
+    if (this._handshakeSubscribers.has(ws)) {
+      const resolve = <(process: string) => void>(
+        this._handshakeSubscribers.get(ws)
+      );
+      resolve(uid);
+      const ok = ws.send(
+        <Buffer>new Message({
+          type: Type.Handshake,
+          method: Method.Response,
+          body: this.uid,
+        }).buffer,
+        true,
+      );
+    }
+    return Promise.resolve();
   }
 
   /**

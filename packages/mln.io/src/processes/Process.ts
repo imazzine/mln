@@ -1,5 +1,6 @@
 import { WebSocket } from "@imazzine/mln.ws";
 import { destruct, Node } from "@imazzine/mln.ts";
+import { Message, Type, Method } from "@imazzine/mln.fbs";
 
 let _process: null | Process = null;
 let _tenant: null | string = null;
@@ -48,6 +49,16 @@ class Process extends Node implements IProcess {
     this[_ws] = new WebSocket(getUrl());
     this[_ws].addEventListener("open", () => {
       this.dispatch("process::opened");
+      const msg = new Message({
+        type: Type.Handshake,
+        method: Method.Request,
+        body: this.uid,
+      });
+      this[_ws] && this[_ws].send(<Buffer>msg.buffer);
+    });
+    this[_ws].addEventListener("message", (evt) => {
+      // const msg = new Message(<Buffer>evt.data);
+      this.dispatch("process::connected");
     });
     this[_ws].addEventListener("error", (err) => {
       this.dispatch("process::error", {

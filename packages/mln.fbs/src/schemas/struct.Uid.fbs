@@ -1,0 +1,10 @@
+/**
+ * @author Artem Lytvynov
+ * @copyright Artem Lytvynov
+ * @license Apache2.0
+ */
+
+namespace struct;
+
+/// Struct to store UUID values.
+struct Uid { uid: [ubyte: 16]; }

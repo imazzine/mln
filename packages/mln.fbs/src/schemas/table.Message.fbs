@@ -1,0 +1,18 @@
+/**
+ * @author Artem Lytvynov
+ * @copyright Artem Lytvynov
+ * @license Apache2.0
+ */
+
+include "struct.Header.fbs";
+include "struct.Pipe.fbs";
+include "union.Body.fbs";
+
+namespace table;
+
+/// Message type.
+table Message {
+  header: struct.Header;
+  pipe: struct.Pipe;
+  body: union.Body;
+}
